@@ -2,6 +2,33 @@
 	{
 		"id": 1,
 		"name": "chicken in milk",
-		"content":"opaisnyufovnpomfiquw"
+		"unitsOfRecipe": [
+			{
+				"product": {
+					"name":"chicken",
+					"type": ""
+				},
+				"amount": 500,
+				"measure": "g"
+			},
+			{
+				"product": {
+					"name":"milk",
+					"type": "goats"
+				},
+				"amount": 200,
+				"measure": "ml"
+			}
+		],
+		"steps": [
+			{
+				"image": "https://yourecipe.com/image_1.jpg",
+				"describe": "At these place must be describe of recipe Chicken in milk, but development of system just has been beginning."
+			},
+			{
+				"image": "https://yourecipe.com/image_2.jpg",
+				"describe": "Test string in describe of recipe"
+			}
+		]
 	}
 ]

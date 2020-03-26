@@ -2,22 +2,23 @@ package by.bsu.ilyin.entities.recipe;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class Recipe {
     private int id;
     private String name;
     private List<UnitOfRecipe>unitsOfRecipe;
-    private RecipeContent recipeContent;
+    private List<Step>steps;
 
     public Recipe(){
         super();
     }
 
-    public Recipe(int id, String name, UnitOfRecipe[] unitsOfRecipe, RecipeContent recipeContent) {
+    public Recipe(int id, String name, UnitOfRecipe[] unitsOfRecipe, Step[]steps) {
         this.id = id;
         this.name = name;
         this.unitsOfRecipe = Arrays.asList(unitsOfRecipe);
-        this.recipeContent = recipeContent;
+        this.steps = Arrays.asList(steps);
     }
 
 
@@ -46,12 +47,27 @@ public class Recipe {
         return this;
     }
 
-    public RecipeContent getRecipeContent() {
-        return recipeContent;
+    public Recipe setUnitsOfRecipe(List<UnitOfRecipe> unitsOfRecipe) {
+        this.unitsOfRecipe = unitsOfRecipe;
+        return this;
     }
 
-    public void setRecipeContent(RecipeContent recipeContent) {
-        this.recipeContent = recipeContent;
+    public List<Step> getSteps() {
+        return steps;
     }
 
+    public Recipe setSteps(List<Step> steps) {
+        this.steps = steps;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Recipe.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("name='" + name + "'")
+                .add("unitsOfRecipe=" + unitsOfRecipe)
+                .add("steps=" + steps)
+                .toString();
+    }
 }

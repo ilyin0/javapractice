@@ -93,13 +93,7 @@ public class UserController extends AbstractController<User, Integer> {
     }
 
     public boolean updateDb(List<User>list)  {
-        try {
-            mapper.writeValue(database.getDb(), list.toArray(new User[0]));
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+        return updateDb(list.toArray(new User[0]));
     }
 
     public boolean updateDb(User[]users)  {
