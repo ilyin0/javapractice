@@ -1,9 +1,13 @@
 package by.bsu.ilyin.entities.recipe;
 
+import java.util.StringJoiner;
+
 public class UnitOfRecipe {
     private Product product;
     private int amount;
     private String measure;
+
+    public UnitOfRecipe(){super();}
 
     public UnitOfRecipe(Product product, int amount, String measure) {
         this.product = product;
@@ -36,5 +40,14 @@ public class UnitOfRecipe {
     public UnitOfRecipe setMeasure(String measure) {
         this.measure = measure;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", UnitOfRecipe.class.getSimpleName() + "[", "]")
+                .add("product=" + product)
+                .add("amount=" + amount)
+                .add("measure='" + measure + "'")
+                .toString();
     }
 }

@@ -1,8 +1,12 @@
 package by.bsu.ilyin.entities.recipe;
 
+import java.util.StringJoiner;
+
 public class Step {
     private String image;
     private String describe;
+
+    public Step(){super();}
 
     public Step(String image, String describe) {
         this.image = image;
@@ -23,5 +27,13 @@ public class Step {
 
     public void setDescribe(String describe) {
         this.describe = describe;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Step.class.getSimpleName() + "[", "]")
+                .add("image='" + image + "'")
+                .add("describe='" + describe + "'")
+                .toString();
     }
 }

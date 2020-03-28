@@ -1,10 +1,13 @@
 package by.bsu.ilyin.entities.recipe;
 
+import java.util.StringJoiner;
+
 public class Product {
 
     private String name;
     private String type = "";
 
+    public Product(){super();}
 
     public Product(String name) {
         this.name = name;
@@ -29,5 +32,13 @@ public class Product {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Product.class.getSimpleName() + "[", "]")
+                .add("name='" + name + "'")
+                .add("type='" + type + "'")
+                .toString();
     }
 }

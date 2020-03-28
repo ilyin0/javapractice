@@ -1,11 +1,12 @@
 package by.bsu.ilyin.entities.recipe;
 
+import by.bsu.ilyin.entities.IdEntity;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class Recipe {
-    private int id;
+public class Recipe extends IdEntity<Integer> {
     private String name;
     private List<UnitOfRecipe>unitsOfRecipe;
     private List<Step>steps;
@@ -14,37 +15,25 @@ public class Recipe {
         super();
     }
 
-    public Recipe(int id, String name, UnitOfRecipe[] unitsOfRecipe, Step[]steps) {
-        this.id = id;
+    public Recipe(int id, String name, List<UnitOfRecipe> unitsOfRecipe, List<Step> steps) {
+        super(id);
         this.name = name;
-        this.unitsOfRecipe = Arrays.asList(unitsOfRecipe);
-        this.steps = Arrays.asList(steps);
+        this.unitsOfRecipe = unitsOfRecipe;
+        this.steps = steps;
     }
 
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Recipe setName(String name) {
         this.name = name;
+        return this;
     }
 
     public List<UnitOfRecipe> getUnitsOfRecipe() {
         return unitsOfRecipe;
-    }
-
-    public Recipe setUnitsOfRecipe(UnitOfRecipe[] unitsOfRecipe) {
-        this.unitsOfRecipe = Arrays.asList(unitsOfRecipe);
-        return this;
     }
 
     public Recipe setUnitsOfRecipe(List<UnitOfRecipe> unitsOfRecipe) {
@@ -70,4 +59,5 @@ public class Recipe {
                 .add("steps=" + steps)
                 .toString();
     }
+
 }

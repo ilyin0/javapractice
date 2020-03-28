@@ -2,35 +2,21 @@ package by.bsu.ilyin.model;
 
 import by.bsu.ilyin.entities.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.std.IterableSerializer;
-import org.apache.commons.lang3.SerializationUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 public class UserController extends AbstractController<User, Integer> {
 
-    ObjectMapper mapper=new ObjectMapper();
-    Database database = new Database("C:\\Users\\ilyin\\Study\\java\\Practice\\file_write_and_read_demo\\user.json");
-    UserConverter converter = new UserConverter();
+    public UserController() {
+        this.mapper=new ObjectMapper();
+        this.database = new Database("C:\\Users\\ilyin\\Study\\EPAM\\Valeriya\\Labs\\Yourecipe\\javapractice\\YouRecipe\\user.json");
+        this.converter=new UserConverter();
+    }
 
     @Override
     public User[] getAll() throws IOException {
         return this.getAllAsList().toArray(new User[0]);
-    }
-
-    public List<User> getAllAsList() throws IOException {
-        return this.converter.fromJSONFileToList(this.database.getDb());
-    }
-
-    @Override
-    public User getEntityById(Integer id) throws Exception {
-        User[]users=this.getAll();
-        for (User user : users) {
-            if(user.getId()==id) return user;
-        }
-        throw new Exception("User having this id doesn't exist!");
     }
 
     @Override

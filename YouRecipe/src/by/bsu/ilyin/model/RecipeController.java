@@ -1,19 +1,21 @@
 package by.bsu.ilyin.model;
 
 import by.bsu.ilyin.entities.recipe.Recipe;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 
 public class RecipeController extends AbstractController<Recipe, Integer> {
 
-    Database database = new Database("C:\\Users\\ilyin\\Study\\java\\Practice\\file_write_and_read_demo\\user.json");
-
-    @Override
-    public Recipe[] getAll() {
-        return new Recipe[0];
+    public RecipeController() {
+        this.mapper=new ObjectMapper();
+        this.database = new Database("C:\\Users\\ilyin\\Study\\EPAM\\Valeriya\\Labs\\Yourecipe\\javapractice\\YouRecipe\\recipe.json");
+        this.converter=new RecipeConverter();
     }
 
     @Override
-    public Recipe getEntityById(Integer id) {
-        return null;
+    public Recipe[] getAll() throws IOException {
+        return this.getAllAsList().toArray(new Recipe[0]);
     }
 
     @Override

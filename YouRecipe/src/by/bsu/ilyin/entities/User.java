@@ -3,8 +3,7 @@ package by.bsu.ilyin.entities;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-public class User implements Cloneable{
-    private int id;
+public class User extends IdEntity<Integer> implements Cloneable{
     private String name;
     private String email;
 
@@ -13,17 +12,9 @@ public class User implements Cloneable{
     }
 
     public User(int id, String name, String email) {
-        this.id = id;
+        super(id);
         this.name = name;
         this.email = email;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
