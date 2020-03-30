@@ -1,6 +1,6 @@
 package by.bsu.ilyin.entities;
 
-import java.util.StringJoiner;
+import java.util.Objects;
 
 public class IdEntity<K> {
 
@@ -22,4 +22,16 @@ public class IdEntity<K> {
         return this;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof IdEntity)) return false;
+        IdEntity<?> idEntity = (IdEntity<?>) o;
+        return getId().equals(idEntity.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }

@@ -4,6 +4,7 @@ import by.bsu.ilyin.entities.recipe.Recipe;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.util.List;
 
 public class RecipeController extends AbstractController<Recipe, Integer> {
 
@@ -19,17 +20,9 @@ public class RecipeController extends AbstractController<Recipe, Integer> {
     }
 
     @Override
-    public Recipe update(Recipe entity) {
-        return null;
+    protected boolean updateDb(List<Recipe> list) {
+        return updateDb(list.toArray(new Recipe[0]));
     }
 
-    @Override
-    public boolean delete(Integer id) {
-        return false;
-    }
 
-    @Override
-    public boolean create(Recipe entity) {
-        return false;
-    }
 }

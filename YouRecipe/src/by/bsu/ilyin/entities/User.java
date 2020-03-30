@@ -44,16 +44,6 @@ public class User extends IdEntity<Integer> implements Cloneable{
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
-        return getId() == user.getId() &&
-                getName().equals(user.getName()) &&
-                getEmail().equals(user.getEmail());
-    }
-
-    @Override
     protected Object clone() throws CloneNotSupportedException {
         super.clone();
         User user = new User();
@@ -68,4 +58,11 @@ public class User extends IdEntity<Integer> implements Cloneable{
         return Objects.hash(getId(), getName(), getEmail());
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return getEmail().equals(user.getEmail())&&super.equals(o);
+    }
 }
