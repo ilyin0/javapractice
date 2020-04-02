@@ -10,7 +10,7 @@ public class RecipeController extends AbstractController<Recipe, Integer> {
 
     public RecipeController() {
         this.mapper=new ObjectMapper();
-        this.database = new Database("C:\\Users\\ilyin\\Study\\EPAM\\Valeriya\\Labs\\Yourecipe\\javapractice\\YouRecipe\\recipe.json");
+        this.database = new Database("C:\\Users\\ilyin\\Study\\EPAM\\Valeriya\\Labs\\Yourecipe\\javapractice\\YouRecipe\\db\\recipe.json");
         this.converter=new RecipeConverter();
     }
 

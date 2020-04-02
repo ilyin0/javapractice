@@ -10,7 +10,7 @@ public class UserController extends AbstractController<User, Integer> {
 
     public UserController() {
         this.mapper=new ObjectMapper();
-        this.database = new Database("C:\\Users\\ilyin\\Study\\EPAM\\Valeriya\\Labs\\Yourecipe\\javapractice\\YouRecipe\\user.json");
+        this.database = new Database("C:\\Users\\ilyin\\Study\\EPAM\\Valeriya\\Labs\\Yourecipe\\javapractice\\YouRecipe\\db\\user.json");
         this.converter=new UserConverter();
     }
 
