@@ -63,6 +63,6 @@ public class User extends IdEntity<Integer> implements Cloneable{
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return getEmail().equals(user.getEmail())&&super.equals(o);
+        return getEmail().equals(user.getEmail())||super.equals(user);
     }
 }
