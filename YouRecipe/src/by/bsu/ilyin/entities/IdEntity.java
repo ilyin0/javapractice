@@ -1,10 +1,14 @@
 package by.bsu.ilyin.entities;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.Objects;
 
 public class IdEntity<K> {
 
     protected K id;
+    public Logger logger = LogManager.getLogger();
 
     public IdEntity(K id) {
         this.id = id;

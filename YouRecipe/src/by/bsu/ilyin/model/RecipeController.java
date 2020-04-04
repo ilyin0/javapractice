@@ -24,5 +24,19 @@ public class RecipeController extends Controller<Recipe, Integer> {
         return updateDb(list.toArray(new Recipe[0]));
     }
 
+    @Override
+    public Recipe getByName(String name){
+        try {
+            Recipe[] recipes = this.getAll();
+            for (Recipe recipe : recipes) {
+                if (name.equals(recipe.getName())) return recipe;
+            }
+            throw new Exception("Recipe having this name doesn't exist");
+        }
+        catch(Exception exception) {
+            logger.error(exception.getMessage());
+        }
+        return null;
+    }
 
 }

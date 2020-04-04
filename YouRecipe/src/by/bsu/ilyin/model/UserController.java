@@ -24,4 +24,18 @@ public class UserController extends Controller<User, Integer> {
         return updateDb(list.toArray(new User[0]));
     }
 
+    @Override
+    public User getByEmail(String email){
+        try {
+            User[] users = this.getAll();
+            for (User user : users) {
+                if (email.equals(user.getEmail())) return user;
+            }
+            throw new Exception("User having this email doesn't exist");
+        }
+        catch(Exception exception) {
+            logger.error(exception.getMessage());
+        }
+        return null;
+    }
 }
