@@ -2,17 +2,21 @@ package by.bsu.ilyin.model;
 
 import by.bsu.ilyin.entities.IdEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.List;
 
-public abstract class AbstractController<E extends IdEntity,K> {
+public abstract class Controller<E extends IdEntity,K> {
 
     ObjectMapper mapper;
     Database database;
     Converter converter;
+    Logger logger = LogManager.getLogger();
 
     public abstract E[] getAll() throws IOException;
+    protected abstract boolean updateDb(List<E> list);
 
     public List<E> getAllAsList() throws IOException {
         return this.converter.fromJSONFileToList(this.database.getDb());
@@ -27,9 +31,9 @@ public abstract class AbstractController<E extends IdEntity,K> {
             throw new Exception("This entity doesn't exist!");
         }
         catch(Exception exception) {
-            System.out.print(exception.toString());
-            return null;
+            logger.error(exception.getMessage());
         }
+        return null;
     }
 
     public int findIndex(E e) throws IOException {
@@ -56,17 +60,20 @@ public abstract class AbstractController<E extends IdEntity,K> {
             updateDb(list);
             return true;
         }
+        logger.warn("Entity wasn't deleted");
         return false;
     }
 
-    protected abstract boolean updateDb(List<E> list);
+    public boolean delete(E entity) throws IOException {
+        return delete((K) entity.getId());
+    }
 
     public boolean updateDb(E[]es)  {
         try {
             mapper.writeValue(database.getDb(), es);
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
             return false;
         }
     }
@@ -74,29 +81,35 @@ public abstract class AbstractController<E extends IdEntity,K> {
     public boolean create(E entity) throws IOException {
         for(E e : this.getAll())
         {
-            if(e.equals(entity)) return false;
-            //TODO: generate log record or some kind of error
+            if(e.equals(entity)) {
+                logger.warn("Entity wasn't created");
+                return false;
+            }
         }
         try {
             List<E>list = this.getAllAsList();
             list.add(entity);
             updateDb(list);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return true;
     }
 
-    public E update(E entity) throws Exception {
+    public boolean update(E entity) throws Exception {
         int index = findIndex(entity);
         E[] es = this.getAll();
         if(index>=0)
         {
-            if(es[index].equals(entity)) return es[index];
+            if(es[index].equals(entity)) {
+                logger.warn("Entity wasn't updated");
+                return false;
+            }
             es[index]=entity;
             updateDb(es);
+            return true;
         }
-        else throw new Exception("You cannot update not existing entity!");
-        return es[index];
+        logger.warn("Entity being tried to update doesn't exist");
+        throw new Exception("You cannot update not existing entity!");
     }
 }

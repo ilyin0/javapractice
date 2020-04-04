@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.List;
 
-public class RecipeController extends AbstractController<Recipe, Integer> {
+public class RecipeController extends Controller<Recipe, Integer> {
 
     public RecipeController() {
         this.mapper=new ObjectMapper();
@@ -20,7 +20,7 @@ public class RecipeController extends AbstractController<Recipe, Integer> {
     }
 
     @Override
-    protected boolean updateDb(List<Recipe> list) {
+    public boolean updateDb(List<Recipe> list) {
         return updateDb(list.toArray(new Recipe[0]));
     }
 

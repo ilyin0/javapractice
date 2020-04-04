@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.List;
 
-public class UserController extends AbstractController<User, Integer> {
+public class UserController extends Controller<User, Integer> {
 
     public UserController() {
         this.mapper=new ObjectMapper();
