@@ -4,7 +4,7 @@ import java.util.StringJoiner;
 
 public class UnitOfRecipe {
     private Product product;
-    private int amount;
+    private Integer amount;
     private String measure;
 
     public UnitOfRecipe(){super();}
@@ -24,7 +24,7 @@ public class UnitOfRecipe {
         return this;
     }
 
-    public int getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 

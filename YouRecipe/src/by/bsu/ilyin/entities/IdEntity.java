@@ -5,23 +5,23 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Objects;
 
-public class IdEntity<K> {
+public class IdEntity {
 
-    protected K id;
+    private Integer id;
     public Logger logger = LogManager.getLogger();
 
-    public IdEntity(K id) {
+    public IdEntity(Integer id) {
         this.id = id;
     }
 
     public IdEntity() {
     }
 
-    public K getId() {
+    public Integer getId() {
         return id;
     }
 
-    public IdEntity setId(K id) {
+    public IdEntity setId(Integer id) {
         this.id = id;
         return this;
     }
@@ -30,7 +30,7 @@ public class IdEntity<K> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof IdEntity)) return false;
-        IdEntity<?> idEntity = (IdEntity<?>) o;
+        IdEntity idEntity = (IdEntity) o;
         return getId().equals(idEntity.getId());
     }
 

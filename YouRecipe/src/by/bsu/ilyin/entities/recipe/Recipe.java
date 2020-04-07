@@ -2,11 +2,10 @@ package by.bsu.ilyin.entities.recipe;
 
 import by.bsu.ilyin.entities.IdEntity;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class Recipe extends IdEntity<Integer> {
+public class Recipe extends IdEntity {
     private String name;
     private List<UnitOfRecipe>unitsOfRecipe;
     private List<Step>steps;
@@ -53,7 +52,7 @@ public class Recipe extends IdEntity<Integer> {
     @Override
     public String toString() {
         return new StringJoiner(", ", Recipe.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
+                .add("id=" + getId())
                 .add("name='" + name + "'")
                 .add("unitsOfRecipe=" + unitsOfRecipe)
                 .add("steps=" + steps)
