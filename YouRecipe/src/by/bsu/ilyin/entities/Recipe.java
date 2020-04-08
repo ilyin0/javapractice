@@ -1,6 +1,7 @@
-package by.bsu.ilyin.entities.recipe;
+package by.bsu.ilyin.entities;
 
-import by.bsu.ilyin.entities.IdEntity;
+import by.bsu.ilyin.entities.recipe.Step;
+import by.bsu.ilyin.entities.recipe.UnitOfRecipe;
 
 import java.util.List;
 import java.util.StringJoiner;

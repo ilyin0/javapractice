@@ -1,6 +1,6 @@
 package by.bsu.ilyin.model;
 
-import by.bsu.ilyin.entities.recipe.Recipe;
+import by.bsu.ilyin.entities.Recipe;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 

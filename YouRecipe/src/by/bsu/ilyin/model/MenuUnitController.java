@@ -30,7 +30,7 @@ public class MenuUnitController extends Controller<MenuUnit,Integer> {
             for (MenuUnit menuUnit : menuUnits) {
                 if (name.equals(menuUnit.getName())) return menuUnit;
             }
-            throw new Exception("Recipe having this name doesn't exist");
+            throw new Exception("MenuUnit having this name doesn't exist");
         }
         catch(Exception exception) {
             logger.error(exception.getMessage());

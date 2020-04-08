@@ -1,5 +1,7 @@
 package by.bsu.ilyin.entities;
 
+import org.apache.logging.log4j.LogManager;
+
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -9,6 +11,10 @@ public class MenuUnit extends IdEntity implements Cloneable {
 
     public MenuUnit(){
         super();
+    }
+
+    public MenuUnit(String name){
+        this.name=name;
     }
 
     public MenuUnit(int id, String name, MenuUnit[] actions) {
@@ -23,7 +29,8 @@ public class MenuUnit extends IdEntity implements Cloneable {
 
     @Override
     public String toString() {
-        String result = new String(name);
+        String result = name;
+        if(Objects.isNull(actions)) return result;
         for(MenuUnit menuUnit : actions){
             result=result+"\n\t"+menuUnit.getName();
         }
@@ -76,13 +83,13 @@ public class MenuUnit extends IdEntity implements Cloneable {
     }
 
     public MenuUnit getActionByName(String name){
-        for(MenuUnit menuUnit : actions){
-            if(name.equals(menuUnit.name)) return menuUnit;
-        }
         try {
+            for(MenuUnit menuUnit : actions){
+                if(name.equals(menuUnit.name)) return menuUnit;
+            }
             throw new Exception("Action with this name doesn't exists");
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            LogManager.getLogger().error(e.getMessage());
         }
         return null;
     }

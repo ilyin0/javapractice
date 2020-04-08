@@ -1,20 +1,17 @@
 package by.bsu.ilyin.entities;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.util.Objects;
 
 public class IdEntity {
 
     private Integer id;
-    public Logger logger = LogManager.getLogger();
 
     public IdEntity(Integer id) {
         this.id = id;
     }
 
     public IdEntity() {
+        super();
     }
 
     public Integer getId() {

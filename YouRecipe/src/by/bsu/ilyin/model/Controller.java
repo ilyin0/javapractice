@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class Controller<E extends IdEntity,K> {
 
@@ -89,6 +90,7 @@ public abstract class Controller<E extends IdEntity,K> {
         }
         try {
             List<E>list = this.getAllAsList();
+            if(Objects.isNull(entity.getId())) entity.setId(determineIdBeforeAdding(list));
             list.add(entity);
             updateDb(list);
         } catch (IOException e) {
@@ -118,6 +120,15 @@ public abstract class Controller<E extends IdEntity,K> {
             logger.warn(e.getMessage());
         }
         return false;
+    }
+
+    public Integer determineIdBeforeAdding(List<E>list){
+        if(list.isEmpty()) return 1;
+        Integer max=list.get(0).getId();
+        for(E e : list){
+            if(e.getId()>max) max = e.getId();
+        }
+        return max+1;
     }
 
     public E getByName(String name){return null;}

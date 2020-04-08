@@ -1,8 +1,10 @@
 package by.bsu.ilyin.UI;
 
-import by.bsu.ilyin.entities.IdEntity;
+import by.bsu.ilyin.entities.MenuUnit;
 import by.bsu.ilyin.service.MenuUnitService;
+import by.bsu.ilyin.service.RecipeService;
 import by.bsu.ilyin.service.Service;
+import by.bsu.ilyin.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,22 +12,19 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class UI {
     PrintStream outStream;
     InputStream inStream;
     Scanner scanner;
-    Service menuUnitService;
+    Service menuUnitService = new MenuUnitService();
     Service entityService;
     Logger logger = LogManager.getLogger();
 
     public UI(){
-        menuUnitService = new MenuUnitService();
+        super();
     }
 
     public Object constructEntity(String entityName) throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchFieldException, NoSuchMethodException, InvocationTargetException {
@@ -39,7 +38,6 @@ public class UI {
             field.setAccessible(true);
             outStream.print(field.toString()+": ");
             if(field.toString().contains("List")){
-                outStream.print(field.getGenericType());
                 field.set(obj,fillCollectionsField((ParameterizedType) field.getGenericType()));
                 continue;
             }
@@ -60,18 +58,8 @@ public class UI {
 
             }
             else field.set(obj,buf);
-        }
-        if(c.getSuperclass().equals(IdEntity.class)){
-            try {
-                Method idSetter = c.getSuperclass().getMethod("setId", Integer.class);
-                outStream.print("Id: ");
-                idSetter.invoke(obj, Integer.valueOf(scanner.nextLine()));
-            }
-            catch(Exception e){
-                logger.debug(e.getMessage());
-            }
-        }
-        return obj;
+          }
+          return obj;
     }
 
     public ArrayList fillCollectionsField(ParameterizedType type) throws IllegalAccessException, InstantiationException, ClassNotFoundException, NoSuchMethodException, NoSuchFieldException, InvocationTargetException {
@@ -81,11 +69,94 @@ public class UI {
         ArrayList arrayList= new ArrayList(Arrays.asList());
         do{
             arrayList.add(constructEntity(c.getName()));
-            outStream.print("Input \"0\" to end adding, \"1\" to continue");
+            outStream.print("Input \"0\" to end adding, anything else to continue");
             if(scanner.nextLine().equals("0")) break;
         }
         while(true);
         return arrayList;
+    }
+
+    public Integer start() throws Exception {
+        scanner=new Scanner(inStream);
+        List<MenuUnit> menuList=menuUnitService.getAllAsList();
+        String name;
+        MenuUnit unit;
+        while(true){
+            outStream.print(menuList.get(menuList.size()-1)+"\n\tprevStep\n\texit\n");
+            name = scanner.nextLine();
+            unit = select(menuList,name);
+            if(Objects.isNull(unit)) break;
+            if((!Objects.isNull(unit.getId()))&&unit.getId().equals(-1)) {
+                if(menuList.size()==1) break;
+                menuList.remove(menuList.size()-1);
+                continue;
+            }
+            if(Objects.isNull(unit.getActions())) {
+                menuList.add(new MenuUnit(name));
+                action(menuList);
+                menuList.remove(menuList.size()-1);
+                continue;
+            }
+            menuList.add(unit);
+        }
+        outStream.print("\nGood bye!\n");
+        return 0;
+    }
+
+    public MenuUnit select(List<MenuUnit>menuList,String select) throws Exception {
+        if(menuList.isEmpty()) return null;
+        MenuUnit buf = menuList.get(menuList.size()-1);
+        if(Objects.isNull(buf.getActions())) {
+            action(menuList);
+            return buf;
+        }
+        if(select.equals("exit")) return null;
+        if(select.equals("prevStep")) return new MenuUnit(-1,null,null);
+        for(MenuUnit unit : buf.getActions()){
+            if(select.equals(unit.getName())) return unit;
+        }
+        outStream.print("Not correct select, try again\n");
+        return new MenuUnit();
+    }
+
+    public boolean action(List<MenuUnit>menuList) throws Exception {
+        String action = menuList.get(menuList.size()-1).getName();
+        outStream.print(action+"\n");
+        String entityName = menuList.get(menuList.size()-2).getName();
+        outStream.print(entityName+"\n");
+        if(entityName.equals("Recipe")) entityService=new RecipeService();
+        else if(entityName.equals("User")) entityService=new UserService();
+        else return false;
+        entityName="by.bsu.ilyin.entities."+entityName;
+        switch(action){
+            case "create": return entityService.create(constructEntity(entityName));
+            case "delete": {
+                outStream.print("Id of being deleted entity: ");
+                return entityService.delete(Integer.valueOf(scanner.nextLine()));
+            }
+            case "getById": {
+                outStream.print("Id of being getting entity: ");
+                Object obj = entityService.getById(Integer.valueOf(scanner.nextLine()));
+                if(Objects.isNull(obj)) return false;
+                outStream.print(obj+"\n");
+                return true;
+            }
+            case "getByName":{
+                outStream.print("Name of being getting entity: ");
+                Object obj = entityService.getByName(scanner.nextLine());
+                if(Objects.isNull(obj)) return false;
+                outStream.print(obj+"\n");
+                return true;
+            }
+            case "getByEmail":{
+                outStream.print("Email of being getting entity: ");
+                Object obj = entityService.getByEmail(scanner.nextLine());
+                if(Objects.isNull(obj)) return false;
+                outStream.print(obj+"\n");
+                return true;
+            }
+            default: return false;
+        }
     }
 
 }

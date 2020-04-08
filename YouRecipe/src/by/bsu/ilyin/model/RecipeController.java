@@ -1,6 +1,6 @@
 package by.bsu.ilyin.model;
 
-import by.bsu.ilyin.entities.recipe.Recipe;
+import by.bsu.ilyin.entities.Recipe;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
