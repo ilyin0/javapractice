@@ -6,15 +6,17 @@ import java.util.StringJoiner;
 public class User extends IdEntity implements Cloneable{
     private String name;
     private String email;
+    private String password;
 
     public User(){
         super();
     }
 
-    public User(int id, String name, String email) {
+    public User(int id, String name, String email, String password) {
         super(id);
         this.name = name;
         this.email = email;
+        this.password = password;
     }
 
     public String getName() {
@@ -33,6 +35,13 @@ public class User extends IdEntity implements Cloneable{
         this.email = email;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 
     @Override
     public String toString() {
