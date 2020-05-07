@@ -1,16 +1,52 @@
 package by.bsu.ilyin.entities.recipe;
 
+import by.bsu.ilyin.entities.IdEntity;
+
 import java.util.StringJoiner;
 
-public class Step {
+public class Step  extends IdEntity {
     private String image;
     private String describe;
+    private int stepNumber;
+    private int recipeId;
+
 
     public Step(){super();}
 
     public Step(String image, String describe) {
         this.image = image;
         this.describe = describe;
+    }
+
+    public int getStepNumber() {
+        return stepNumber;
+    }
+
+    public void setStepNumber(int stepNumber) {
+        this.stepNumber = stepNumber;
+    }
+
+    public int getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
+    }
+
+    public Step(Integer id, String image, String describe, int stepNumber, int recipeId) {
+        super(id);
+        this.image = image;
+        this.describe = describe;
+        this.stepNumber = stepNumber;
+        this.recipeId = recipeId;
+    }
+
+    public Step(String image, String describe, int stepNumber, int recipeId) {
+        this.image = image;
+        this.describe = describe;
+        this.stepNumber = stepNumber;
+        this.recipeId = recipeId;
     }
 
     public String getImage() {
@@ -29,11 +65,16 @@ public class Step {
         this.describe = describe;
     }
 
+
     @Override
     public String toString() {
-        return new StringJoiner(", ", Step.class.getSimpleName() + "[", "]")
-                .add("image='" + image + "'")
-                .add("describe='" + describe + "'")
-                .toString();
+        return "Step{" +
+                "image='" + image + '\'' +
+                ", describe='" + describe + '\'' +
+                ", stepNumber=" + stepNumber +
+                ", recipeId=" + recipeId +
+                '}';
     }
+
+
 }

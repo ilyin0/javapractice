@@ -1,7 +1,7 @@
 package by.bsu.ilyin.service;
 
+import by.bsu.ilyin.dao.UserController;
 import by.bsu.ilyin.entities.User;
-import by.bsu.ilyin.model.UserController;
 
 public class UserService extends Service<User,Integer> {
 

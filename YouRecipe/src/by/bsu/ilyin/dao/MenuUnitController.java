@@ -1,4 +1,4 @@
-package by.bsu.ilyin.model;
+package by.bsu.ilyin.dao;
 
 import by.bsu.ilyin.entities.MenuUnit;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,7 +9,7 @@ import java.util.List;
 public class MenuUnitController extends Controller<MenuUnit,Integer> {
     public MenuUnitController() {
         this.mapper=new ObjectMapper();
-        this.database = new Database("C:\\Users\\ilyin\\Study\\EPAM\\Valeriya\\Labs\\Yourecipe\\javapractice\\YouRecipe\\db\\UI\\UI.json");
+        this.database = new Database("/Users/ilyin/Documents/Study/university/epam/javapractice/YouRecipe/db/UI/UI.json");
         this.converter=new MenuUnitConverter();
     }
 

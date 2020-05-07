@@ -1,1 +1,5 @@
-19:49:44 [main] INFO  Main - info message log
+14:12:37 [main] INFO  UI - Creating of new instance by.bsu.ilyin.entities.Recipe
+14:12:39 [main] INFO  UI - Creating of new instance by.bsu.ilyin.entities.recipe.UnitOfRecipe
+14:12:39 [main] INFO  UI - Creating of new instance by.bsu.ilyin.entities.recipe.Product
+14:12:54 [main] INFO  UI - Creating of new instance by.bsu.ilyin.entities.recipe.Step
+14:13:07 [main] INFO  Controller - Entity was created

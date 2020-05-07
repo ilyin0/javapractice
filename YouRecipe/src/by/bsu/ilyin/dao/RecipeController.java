@@ -1,4 +1,4 @@
-package by.bsu.ilyin.model;
+package by.bsu.ilyin.dao;
 
 import by.bsu.ilyin.entities.Recipe;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,7 +10,7 @@ public class RecipeController extends Controller<Recipe, Integer> {
 
     public RecipeController() {
         this.mapper=new ObjectMapper();
-        this.database = new Database("C:\\Users\\ilyin\\Study\\EPAM\\Valeriya\\Labs\\Yourecipe\\javapractice\\YouRecipe\\db\\recipe.json");
+        this.database = new Database("/Users/ilyin/Documents/Study/university/epam/javapractice/YouRecipe/db/recipe.json");
         this.converter=new RecipeConverter();
     }
 

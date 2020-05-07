@@ -1,45 +1,54 @@
 package by.bsu.ilyin.entities.recipe;
 
+import by.bsu.ilyin.entities.IdEntity;
+
 import java.util.StringJoiner;
 
-public class UnitOfRecipe {
+public class UnitOfRecipe extends IdEntity {
     private Product product;
     private Integer amount;
     private String measure;
+    private int recipeId;
 
     public UnitOfRecipe(){super();}
 
-    public UnitOfRecipe(Product product, int amount, String measure) {
+    public UnitOfRecipe(Product product, int amount, String measure, int recipeId) {
         this.product = product;
         this.amount = amount;
         this.measure = measure;
+        this.recipeId = recipeId;
     }
 
     public Product getProduct() {
         return product;
     }
 
-    public UnitOfRecipe setProduct(Product product) {
+    public void setProduct(Product product) {
         this.product = product;
-        return this;
     }
 
     public Integer getAmount() {
         return amount;
     }
 
-    public UnitOfRecipe setAmount(int amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
-        return this;
     }
 
     public String getMeasure() {
         return measure;
     }
 
-    public UnitOfRecipe setMeasure(String measure) {
+    public void setMeasure(String measure) {
         this.measure = measure;
-        return this;
+    }
+
+    public int getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
     }
 
     @Override

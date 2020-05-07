@@ -1,4 +1,4 @@
-package by.bsu.ilyin.model;
+package by.bsu.ilyin.dao;
 
 import by.bsu.ilyin.entities.IdEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;

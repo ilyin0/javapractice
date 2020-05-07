@@ -46,7 +46,7 @@ public class UI {
                 continue;
             }
             buf=scanner.nextLine();
-            if (field.getType().equals(Integer.class)){
+            if (field.getType().equals(Integer.class)||field.getType().equals(int.class)){
                 while(true){
                     if(buf.matches("[0-9]{1,4}")){
                         field.set(obj, Integer.valueOf(buf));
@@ -66,7 +66,7 @@ public class UI {
         outStream.print("\n\n"+type.getActualTypeArguments()[0].toString()+"\n");
         Class c = Class.forName(type.getActualTypeArguments()[0].toString().replace("class ",""));
         Object obj = c.newInstance();
-        ArrayList arrayList= new ArrayList(Arrays.asList());
+        ArrayList arrayList= new ArrayList();
         do{
             arrayList.add(constructEntity(c.getName()));
             outStream.print("Input \"0\" to end adding, anything else to continue");
@@ -86,7 +86,7 @@ public class UI {
             name = scanner.nextLine();
             unit = select(menuList,name);
             if(Objects.isNull(unit)) break;
-            if((!Objects.isNull(unit.getId()))&&unit.getId().equals(-1)) {
+            if(!(Objects.isNull(unit.getId()))&&unit.getId().equals(-1)) {
                 if(menuList.size()==1) break;
                 menuList.remove(menuList.size()-1);
                 continue;
@@ -113,7 +113,7 @@ public class UI {
         if(select.equals("exit")) return null;
         if(select.equals("prevStep")) return new MenuUnit(-1,null,null);
         for(MenuUnit unit : buf.getActions()){
-            if(select.equals(unit.getName())) return unit;
+            if(select.toLowerCase().equals(unit.getName().toLowerCase())) return unit;
         }
         outStream.print("Not correct select, try again\n");
         return new MenuUnit();
@@ -124,10 +124,10 @@ public class UI {
         outStream.print(action+"\n");
         String entityName = menuList.get(menuList.size()-2).getName();
         outStream.print(entityName+"\n");
-        if(entityName.equals("Recipe")) entityService=new RecipeService();
-        else if(entityName.equals("User")) entityService=new UserService();
+        if(entityName.toLowerCase().equals("Recipe".toLowerCase())) entityService=new RecipeService();
+        else if(entityName.toLowerCase().equals("User".toLowerCase())) entityService=new UserService();
         else return false;
-        entityName="by.bsu.ilyin.entities."+entityName;
+        entityName="by.bsu.ilyin.entities."+firstUpperCase(entityName);
         switch(action){
             case "create": return entityService.create(constructEntity(entityName));
             case "delete": {
@@ -159,4 +159,8 @@ public class UI {
         }
     }
 
+    public String firstUpperCase(String word){
+        if(word == null || word.isEmpty()) return ""; //или return word;
+        return word.substring(0, 1).toUpperCase() + word.substring(1);
+    }
 }

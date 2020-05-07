@@ -1,21 +1,26 @@
 package by.bsu.ilyin.entities.recipe;
 
+import by.bsu.ilyin.entities.IdEntity;
+
 import java.util.StringJoiner;
 
-public class Product {
+public class Product extends IdEntity {
 
     private String name;
     private String type = "";
+    private int calorificValue;
 
     public Product(){super();}
 
-    public Product(String name) {
+    public Product(String name, int calorificValue) {
         this.name = name;
+        this.calorificValue = calorificValue;
     }
 
-    public Product(String name, String type) {
+    public Product(String name, String type, int calorificValue) {
         this.name = name;
         this.type = type;
+        this.calorificValue = calorificValue;
     }
 
     public String getName() {
@@ -32,6 +37,14 @@ public class Product {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public int getCalorificValue() {
+        return calorificValue;
+    }
+
+    public void setCalorificValue(int calorificValue) {
+        this.calorificValue = calorificValue;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package by.bsu.ilyin.service;
 
+import by.bsu.ilyin.dao.Controller;
 import by.bsu.ilyin.entities.IdEntity;
-import by.bsu.ilyin.model.Controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
