@@ -1,11 +1,14 @@
 package by.bsu.ilyin.dao;
 
 import by.bsu.ilyin.entities.IdEntity;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,12 +19,10 @@ public abstract class Controller<E extends IdEntity,K> {
     Converter converter;
     Logger logger = LogManager.getLogger();
 
-    public abstract E[] getAll() throws IOException;
+    public abstract E[] getAll() throws IOException, SQLException, ClassNotFoundException, JSONException;
     public abstract boolean updateDb(List<E> list);
 
-    public List<E> getAllAsList() throws IOException {
-        return this.converter.fromJSONFileToList(this.database.getDb());
-    }
+    public abstract List<E> getAllAsList() throws SQLException, ClassNotFoundException, JSONException, JsonProcessingException;
 
     public E getById(K id) throws Exception{
         try {
@@ -37,7 +38,7 @@ public abstract class Controller<E extends IdEntity,K> {
         return null;
     }
 
-    public int findIndex(E e) throws IOException {
+    public int findIndex(E e) throws IOException, SQLException, JSONException, ClassNotFoundException {
         int index = -1;
         for(int i=0;i<this.getAll().length;++i){
             if(this.getAll()[i].getId()==e.getId()) { index = i; }
@@ -45,7 +46,7 @@ public abstract class Controller<E extends IdEntity,K> {
         return index;
     }
 
-    public int findIndexById(K id) throws IOException {
+    public int findIndexById(K id) throws IOException, SQLException, JSONException, ClassNotFoundException {
         int index = -1;
         for(int i=0;i<this.getAll().length;++i){
             if(this.getAll()[i].getId().equals(id)) { index = i; }
@@ -53,7 +54,7 @@ public abstract class Controller<E extends IdEntity,K> {
         return index;
     }
 
-    public boolean delete(K id) throws IOException {
+    public boolean delete(K id) throws IOException, SQLException, JSONException, ClassNotFoundException {
         int index = findIndexById(id);
         if(index>=0) {
             List<E> list = this.getAllAsList();
@@ -66,7 +67,7 @@ public abstract class Controller<E extends IdEntity,K> {
         return false;
     }
 
-    public boolean delete(E entity) throws IOException {
+    public boolean delete(E entity) throws IOException, SQLException, JSONException, ClassNotFoundException {
         return delete((K) entity.getId());
     }
 
@@ -80,7 +81,7 @@ public abstract class Controller<E extends IdEntity,K> {
         }
     }
 
-    public boolean create(E entity) throws IOException {
+    public boolean create(E entity) throws IOException, SQLException, JSONException, ClassNotFoundException {
         for(E e : this.getAll())
         {
             if(e.equals(entity)) {

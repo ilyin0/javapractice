@@ -5,9 +5,8 @@ import by.bsu.ilyin.entities.IdEntity;
 import java.util.StringJoiner;
 
 public class Product extends IdEntity {
-
     private String name;
-    private String type = "";
+    private String type = " ";
     private int calorificValue;
 
     public Product(){super();}
@@ -45,6 +44,10 @@ public class Product extends IdEntity {
 
     public void setCalorificValue(int calorificValue) {
         this.calorificValue = calorificValue;
+    }
+
+    public String getFullName(){
+        return name+" "+type;
     }
 
     @Override

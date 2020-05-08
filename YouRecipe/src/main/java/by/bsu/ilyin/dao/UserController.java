@@ -1,9 +1,18 @@
 package by.bsu.ilyin.dao;
 
+import by.bsu.ilyin.dbc.DBC;
 import by.bsu.ilyin.entities.User;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 public class UserController extends Controller<User, Integer> {
@@ -15,8 +24,35 @@ public class UserController extends Controller<User, Integer> {
     }
 
     @Override
-    public User[] getAll() throws IOException {
+    public User[] getAll() throws IOException, SQLException, ClassNotFoundException, JSONException {
         return this.getAllAsList().toArray(new User[0]);
+    }
+
+    @Override
+    public List<User> getAllAsList() throws SQLException, JSONException, ClassNotFoundException, JsonProcessingException {
+        return converter.fromJSONToList(getAllAsJSONString());
+    }
+
+    private String getAllAsJSONString() throws SQLException, ClassNotFoundException, JSONException {
+        ResultSet resultSet = getAllAsResultSet();
+        JSONArray jsonArray = new JSONArray();
+        while(resultSet.next()){
+            JSONObject record = new JSONObject();
+            record.put("id", resultSet.getInt("id"));
+            record.put("name", resultSet.getString("email"));
+            record.put("email", resultSet.getString("email"));
+            record.put("password", resultSet.getString("password"));
+            jsonArray.put(record);
+        }
+        return jsonArray.toString();
+    }
+
+    private ResultSet getAllAsResultSet() throws SQLException, ClassNotFoundException {
+        Connection connection = DBC.getConnection();
+        Statement statement = connection.createStatement();
+        String query = "SELECT * FROM User";
+        ResultSet resultSet = statement.executeQuery(query);
+        return resultSet;
     }
 
     @Override
