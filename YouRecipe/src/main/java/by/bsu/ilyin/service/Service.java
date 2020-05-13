@@ -4,8 +4,10 @@ import by.bsu.ilyin.dao.Controller;
 import by.bsu.ilyin.entities.IdEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 public abstract class Service<E extends IdEntity,K> {
@@ -15,7 +17,7 @@ public abstract class Service<E extends IdEntity,K> {
     public boolean updateDb(List<E>list){
         return controller.updateDb(list);
     }
-    public  E[] getAll() throws IOException {
+    public  E[] getAll() throws IOException, SQLException, JSONException, ClassNotFoundException {
         return controller.getAll();
     }
     public E getById(K id) throws Exception {
@@ -25,10 +27,10 @@ public abstract class Service<E extends IdEntity,K> {
         return controller.updateDb(es);
     }
 
-    public List<E> getAllAsList() throws IOException {
+    public List<E> getAllAsList() throws IOException, SQLException, JSONException, ClassNotFoundException {
         return controller.getAllAsList();
     }
-    public boolean create(Object entity) throws IOException {
+    public boolean create(Object entity) throws IOException, SQLException, JSONException, ClassNotFoundException {
         try {
             return controller.create((E) entity);
         }
@@ -46,10 +48,10 @@ public abstract class Service<E extends IdEntity,K> {
         }
         return false;
     }
-    public boolean delete(E entity) throws IOException {
+    public boolean delete(E entity) throws IOException, SQLException, JSONException, ClassNotFoundException {
         return controller.delete(entity);
     }
-    public boolean delete(K id) throws IOException {
+    public boolean delete(K id) throws IOException, SQLException, JSONException, ClassNotFoundException {
         return controller.delete(id);
     }
     public E getByName(String name){return null;}

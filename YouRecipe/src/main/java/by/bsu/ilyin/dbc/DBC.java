@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import oracle.jdbc.pool.OracleDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +18,11 @@ public class DBC {
         Connection connection = null;
         String userName = "c##yourecipe";
         String password = "adminYR";
-        connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", userName, password);
+        String URL = "jdbc:oracle:thin:@localhost:1521:orcl";
+        OracleDataSource ds;
+        ds = new OracleDataSource();
+        ds.setURL(URL);
+        connection = ds.getConnection(userName, password);
         return connection;
     }
 }

@@ -22,7 +22,7 @@ public abstract class Controller<E extends IdEntity,K> {
     public abstract E[] getAll() throws IOException, SQLException, ClassNotFoundException, JSONException;
     public abstract boolean updateDb(List<E> list);
 
-    public abstract List<E> getAllAsList() throws SQLException, ClassNotFoundException, JSONException, JsonProcessingException;
+    public abstract List<E> getAllAsList() throws SQLException, ClassNotFoundException, JSONException, IOException;
 
     public E getById(K id) throws Exception{
         try {

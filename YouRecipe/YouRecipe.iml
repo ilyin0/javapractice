@@ -19,5 +19,7 @@
     <orderEntry type="library" name="ojdbc8dms-19.3.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.13.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.13.2" level="project" />
+    <orderEntry type="library" name="dms-796.2.664.0" level="project" />
+    <orderEntry type="library" name="ojdbc10-19.3.0.0" level="project" />
   </component>
 </module>

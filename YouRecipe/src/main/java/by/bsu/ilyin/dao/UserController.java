@@ -39,7 +39,7 @@ public class UserController extends Controller<User, Integer> {
         while(resultSet.next()){
             JSONObject record = new JSONObject();
             record.put("id", resultSet.getInt("id"));
-            record.put("name", resultSet.getString("email"));
+            record.put("name", resultSet.getString("name"));
             record.put("email", resultSet.getString("email"));
             record.put("password", resultSet.getString("password"));
             jsonArray.put(record);
@@ -50,7 +50,7 @@ public class UserController extends Controller<User, Integer> {
     private ResultSet getAllAsResultSet() throws SQLException, ClassNotFoundException {
         Connection connection = DBC.getConnection();
         Statement statement = connection.createStatement();
-        String query = "SELECT * FROM User";
+        String query = "SELECT * FROM \"User\"";
         ResultSet resultSet = statement.executeQuery(query);
         return resultSet;
     }
