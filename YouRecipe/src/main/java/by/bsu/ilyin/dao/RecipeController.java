@@ -27,7 +27,7 @@ public class RecipeController extends Controller<Recipe, Integer> {
         return updateDb(list.toArray(new Recipe[0]));
     }
 
-    @java.lang.Override
+    @Override
     public List<Recipe> getAllAsList() throws SQLException, ClassNotFoundException, JSONException, JsonProcessingException {
         return null;
     }
