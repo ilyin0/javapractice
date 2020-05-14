@@ -3,9 +3,11 @@ package by.bsu.ilyin.service;
 import by.bsu.ilyin.dao.UserController;
 import by.bsu.ilyin.entities.User;
 
+import java.sql.SQLException;
+
 public class UserService extends Service<User,Integer> {
 
-    public UserService() {
+    public UserService() throws SQLException, ClassNotFoundException {
         controller=new UserController();
     }
 

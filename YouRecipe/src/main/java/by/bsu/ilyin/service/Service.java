@@ -2,6 +2,7 @@ package by.bsu.ilyin.service;
 
 import by.bsu.ilyin.dao.Controller;
 import by.bsu.ilyin.entities.IdEntity;
+import by.bsu.ilyin.exceptions.ControllerException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
@@ -30,7 +31,7 @@ public abstract class Service<E extends IdEntity,K> {
     public List<E> getAllAsList() throws IOException, SQLException, JSONException, ClassNotFoundException {
         return controller.getAllAsList();
     }
-    public boolean create(Object entity) throws IOException, SQLException, JSONException, ClassNotFoundException {
+    public boolean create(Object entity) throws Exception {
         try {
             return controller.create((E) entity);
         }
@@ -48,10 +49,10 @@ public abstract class Service<E extends IdEntity,K> {
         }
         return false;
     }
-    public boolean delete(E entity) throws IOException, SQLException, JSONException, ClassNotFoundException {
+    public boolean delete(E entity) throws IOException, SQLException, JSONException, ClassNotFoundException, ControllerException {
         return controller.delete(entity);
     }
-    public boolean delete(K id) throws IOException, SQLException, JSONException, ClassNotFoundException {
+    public boolean delete(K id) throws IOException, SQLException, JSONException, ClassNotFoundException, ControllerException {
         return controller.delete(id);
     }
     public E getByName(String name){return null;}

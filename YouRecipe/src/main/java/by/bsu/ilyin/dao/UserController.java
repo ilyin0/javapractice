@@ -86,7 +86,7 @@ public class UserController extends Controller<User, Integer> {
     @Override
     public boolean create(User entity) throws SQLException, ControllerException {
         Statement statement = connection.createStatement();
-        String query = "INSERT INTO \"User\" (id, name, email, password) VALUES (" + entity.getId() + ", " + entity.getName() + ", " + entity.getEmail() + ", " + entity.getPassword() + ")";
+        String query = "INSERT INTO \"User\" (\"name\", \"email\", \"password\") VALUES (\'" + entity.getName() + "\', \'" + entity.getEmail() + "\', \'" + entity.getPassword() + "\')";
         int e = statement.executeUpdate(query);
         if(e>0){
             logger.info("Entity was added into the database");
@@ -98,7 +98,7 @@ public class UserController extends Controller<User, Integer> {
     @Override
     public boolean update(User entity) throws SQLException, ControllerException {
         Statement statement = connection.createStatement();
-        String query = "UPDATE \"User\" SET email="+entity.getEmail()+", name="+entity.getName()+", password="+entity.getPassword();
+        String query = "UPDATE \"User\" SET email="+entity.getEmail()+", \"name\"="+entity.getName()+", password="+entity.getPassword();
         int e = statement.executeUpdate(query);
         if(e>0){
             logger.info("Entity was updated!");
@@ -110,7 +110,7 @@ public class UserController extends Controller<User, Integer> {
     @Override
     public boolean delete(Integer id) throws SQLException, ControllerException {
         Statement statement = connection.createStatement();
-        String query = "DELETE FROM \"User\" WHERE id="+id;
+        String query = "DELETE FROM \"User\" WHERE \"id\"=\'"+id + "\'";
         int e = statement.executeUpdate(query);
         if(e>0){
             logger.info("User was deleted!");
