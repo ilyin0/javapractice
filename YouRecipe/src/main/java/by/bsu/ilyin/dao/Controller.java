@@ -1,6 +1,7 @@
 package by.bsu.ilyin.dao;
 
 import by.bsu.ilyin.entities.IdEntity;
+import by.bsu.ilyin.exceptions.ControllerException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
@@ -8,12 +9,14 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
 public abstract class Controller<E extends IdEntity,K> {
 
+    Connection connection;
     ObjectMapper mapper;
     Database database;
     Converter converter;
@@ -54,7 +57,7 @@ public abstract class Controller<E extends IdEntity,K> {
         return index;
     }
 
-    public boolean delete(K id) throws IOException, SQLException, JSONException, ClassNotFoundException {
+    public boolean delete(K id) throws IOException, SQLException, JSONException, ClassNotFoundException, ControllerException {
         int index = findIndexById(id);
         if(index>=0) {
             List<E> list = this.getAllAsList();
@@ -67,7 +70,7 @@ public abstract class Controller<E extends IdEntity,K> {
         return false;
     }
 
-    public boolean delete(E entity) throws IOException, SQLException, JSONException, ClassNotFoundException {
+    public boolean delete(E entity) throws IOException, SQLException, JSONException, ClassNotFoundException, ControllerException {
         return delete((K) entity.getId());
     }
 
@@ -81,7 +84,7 @@ public abstract class Controller<E extends IdEntity,K> {
         }
     }
 
-    public boolean create(E entity) throws IOException, SQLException, JSONException, ClassNotFoundException {
+    public boolean create(E entity) throws Exception {
         for(E e : this.getAll())
         {
             if(e.equals(entity)) {
