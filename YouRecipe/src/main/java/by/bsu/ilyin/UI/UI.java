@@ -155,6 +155,10 @@ public class UI {
                 outStream.print(obj+"\n");
                 return true;
             }
+            case "update":{
+                outStream.print("Input new entity: ");
+                return entityService.update(constructEntity(entityName));
+            }
             default: return false;
         }
     }

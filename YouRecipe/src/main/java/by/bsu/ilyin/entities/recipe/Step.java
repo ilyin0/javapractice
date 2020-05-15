@@ -18,22 +18,6 @@ public class Step  extends IdEntity {
         this.describe = describe;
     }
 
-    public int getStepNumber() {
-        return stepNumber;
-    }
-
-    public void setStepNumber(int stepNumber) {
-        this.stepNumber = stepNumber;
-    }
-
-    public int getRecipeId() {
-        return recipeId;
-    }
-
-    public void setRecipeId(int recipeId) {
-        this.recipeId = recipeId;
-    }
-
     public Step(Integer id, String image, String describe, int stepNumber, int recipeId) {
         super(id);
         this.image = image;

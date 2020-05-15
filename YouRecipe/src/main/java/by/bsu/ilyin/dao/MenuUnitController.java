@@ -1,6 +1,7 @@
 package by.bsu.ilyin.dao;
 
 import by.bsu.ilyin.entities.MenuUnit;
+import by.bsu.ilyin.exceptions.ControllerException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
@@ -10,7 +11,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class MenuUnitController extends Controller<MenuUnit,Integer> {
-    public MenuUnitController() {
+    public MenuUnitController() throws SQLException, ClassNotFoundException {
+        super();
         this.mapper=new ObjectMapper();
         this.database = new Database("C:\\Study\\EPAM\\javapractice\\YouRecipe\\db\\UI\\UI.json");
         this.converter=new MenuUnitConverter();
@@ -46,4 +48,8 @@ public class MenuUnitController extends Controller<MenuUnit,Integer> {
         return null;
     }
 
+    @Override
+    public boolean create(MenuUnit entity) throws SQLException, ControllerException {
+        return false;
+    }
 }

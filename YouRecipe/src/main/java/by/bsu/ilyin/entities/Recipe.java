@@ -2,12 +2,18 @@ package by.bsu.ilyin.entities;
 
 import by.bsu.ilyin.entities.recipe.Step;
 import by.bsu.ilyin.entities.recipe.UnitOfRecipe;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 import java.util.StringJoiner;
 
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class Recipe extends IdEntity {
     private String name;
+    int userId;
     private List<UnitOfRecipe>unitsOfRecipe;
     private List<Step>steps;
 
@@ -15,39 +21,12 @@ public class Recipe extends IdEntity {
         super();
     }
 
-    public Recipe(int id, String name, List<UnitOfRecipe> unitsOfRecipe, List<Step> steps) {
+    public Recipe(int id, String name, int userId, List<UnitOfRecipe> unitsOfRecipe, List<Step> steps) {
         super(id);
         this.name = name;
+        this.userId = userId;
         this.unitsOfRecipe = unitsOfRecipe;
         this.steps = steps;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public Recipe setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public List<UnitOfRecipe> getUnitsOfRecipe() {
-        return unitsOfRecipe;
-    }
-
-    public Recipe setUnitsOfRecipe(List<UnitOfRecipe> unitsOfRecipe) {
-        this.unitsOfRecipe = unitsOfRecipe;
-        return this;
-    }
-
-    public List<Step> getSteps() {
-        return steps;
-    }
-
-    public Recipe setSteps(List<Step> steps) {
-        this.steps = steps;
-        return this;
     }
 
     @Override
@@ -55,6 +34,7 @@ public class Recipe extends IdEntity {
         return new StringJoiner(", ", Recipe.class.getSimpleName() + "[", "]")
                 .add("id=" + getId())
                 .add("name='" + name + "'")
+                .add("userId="+userId)
                 .add("unitsOfRecipe=" + unitsOfRecipe)
                 .add("steps=" + steps)
                 .toString();

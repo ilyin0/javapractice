@@ -1,5 +1,6 @@
 package by.bsu.ilyin.dao;
 
+import by.bsu.ilyin.dbc.DBC;
 import by.bsu.ilyin.entities.IdEntity;
 import by.bsu.ilyin.exceptions.ControllerException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -11,16 +12,23 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Objects;
 
 public abstract class Controller<E extends IdEntity,K> {
 
-    Connection connection;
+    DBC dbc;
+    //Statement statement;
+    //Connection connection;
     ObjectMapper mapper;
     Database database;
     Converter converter;
     Logger logger = LogManager.getLogger();
+
+    public Controller() throws SQLException, ClassNotFoundException {
+        dbc = new DBC();
+    }
 
     public abstract E[] getAll() throws IOException, SQLException, ClassNotFoundException, JSONException;
     public abstract boolean updateDb(List<E> list);
@@ -84,25 +92,26 @@ public abstract class Controller<E extends IdEntity,K> {
         }
     }
 
-    public boolean create(E entity) throws Exception {
-        for(E e : this.getAll())
-        {
-            if(e.equals(entity)) {
-                logger.warn("Entity having this ID already exists");
-                return false;
-            }
-        }
-        try {
-            List<E>list = this.getAllAsList();
-            if(Objects.isNull(entity.getId())) entity.setId(determineIdBeforeAdding(list));
-            list.add(entity);
-            updateDb(list);
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
-        logger.info("Entity was created");
-        return true;
-    }
+    public abstract boolean create(E entity) throws SQLException, ControllerException;
+//    {
+//        for(E e : this.getAll())
+//        {
+//            if(e.equals(entity)) {
+//                logger.warn("Entity having this ID already exists");
+//                return false;
+//            }
+//        }
+//        try {
+//            List<E>list = this.getAllAsList();
+//            if(Objects.isNull(entity.getId())) entity.setId(determineIdBeforeAdding(list));
+//            list.add(entity);
+//            updateDb(list);
+//        } catch (IOException e) {
+//            logger.error(e.getMessage());
+//        }
+//        logger.info("Entity was created");
+//        return true;
+//    }
 
     public boolean update(E entity) throws Exception {
         try {

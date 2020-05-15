@@ -5,7 +5,7 @@ import by.bsu.ilyin.entities.User;
 import by.bsu.ilyin.exceptions.ControllerException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import oracle.jdbc.pool.OracleDataSource;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,15 +21,17 @@ import java.util.List;
 public class UserController extends Controller<User, Integer> {
 
     public UserController() throws SQLException, ClassNotFoundException {
+        super();
         this.mapper=new ObjectMapper();
         this.converter=new UserConverter();
-        connection = DBC.getConnection();
+        //connection = DBC.getConnection();
     }
 
-    public UserController(Connection con){
+    public UserController(Connection con) throws SQLException, ClassNotFoundException {
+        super();
         this.mapper = new ObjectMapper();
         this.converter = new UserConverter();
-        this.connection = con;
+        //this.connection = con;
     }
 
     @Override
@@ -57,10 +59,9 @@ public class UserController extends Controller<User, Integer> {
     }
 
     private ResultSet getAllAsResultSet() throws SQLException, ClassNotFoundException {
-        Statement statement = connection.createStatement();
+        //Statement statement = connection.createStatement();
         String query = "SELECT * FROM \"User\"";
-        ResultSet resultSet = statement.executeQuery(query);
-        return resultSet;
+        return dbc.getConnection().createStatement().executeQuery(query);
     }
 
     @Override
@@ -71,50 +72,65 @@ public class UserController extends Controller<User, Integer> {
     @Override
     public User getByEmail(String email){
         try {
-            User[] users = this.getAll();
+            List<User> users = this.getAllAsList();
             for (User user : users) {
                 if (email.equals(user.getEmail())) return user;
             }
-            throw new Exception("User having this email doesn't exist");
+            throw new ControllerException("User having this email doesn't exist");
         }
-        catch(Exception exception) {
+        catch(ControllerException | SQLException | JSONException | ClassNotFoundException | JsonProcessingException exception) {
             logger.error(exception.getMessage());
         }
         return null;
     }
 
     @Override
-    public boolean create(User entity) throws SQLException, ControllerException {
-        Statement statement = connection.createStatement();
+    public boolean create(User entity)  {
         String query = "INSERT INTO \"User\" (\"name\", \"email\", \"password\") VALUES (\'" + entity.getName() + "\', \'" + entity.getEmail() + "\', \'" + entity.getPassword() + "\')";
-        int e = statement.executeUpdate(query);
-        if(e>0){
-            logger.info("Entity was added into the database");
-            return true;
+        try {
+            int e = dbc.getConnection().createStatement().executeUpdate(query);
+            if (e > 0) {
+                logger.info("Entity was added into the database");
+                return true;
+            }
+            else throw new ControllerException("Entity wasn't created!");
         }
-        throw new ControllerException("Entity wasn't added!");
+        catch (ControllerException | SQLException e){
+            logger.error(e.getMessage());
+            return false;
+        }
     }
 
     @Override
     public boolean update(User entity) throws SQLException, ControllerException {
-        Statement statement = connection.createStatement();
+        //Statement statement = connection.createStatement();
         String query = "UPDATE \"User\" SET email="+entity.getEmail()+", \"name\"="+entity.getName()+", password="+entity.getPassword();
-        int e = statement.executeUpdate(query);
-        if(e>0){
-            logger.info("Entity was updated!");
-            return true;
+        try {
+            int e = dbc.getConnection().createStatement().executeUpdate(query);
+            if (e > 0) {
+                logger.info("Entity was updated!");
+                return true;
+            }
+            else throw new ControllerException("Entity wasn't updated!");
         }
-        throw new ControllerException("Entity wasn't updated!");
+        catch (Exception e) {
+            logger.error(e.getMessage());
+            return false;
+        }
     }
 
     @Override
     public boolean delete(Integer id) throws SQLException, ControllerException {
-        Statement statement = connection.createStatement();
+        //Statement statement = connection.createStatement();
         String query = "DELETE FROM \"User\" WHERE \"id\"=\'"+id + "\'";
-        int e = statement.executeUpdate(query);
-        if(e>0){
-            logger.info("User was deleted!");
+        try{
+            dbc.getConnection().createStatement().executeUpdate(query);
         }
-        throw new ControllerException("Entity wasn't deleted!");
+        catch (Exception e){
+            logger.error(e.getMessage());
+            return false;
+        }
+        logger.info("User with id = "+id+" was deleted!");
+        return true;
     }
 }
