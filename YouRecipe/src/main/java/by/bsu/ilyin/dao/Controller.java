@@ -92,7 +92,7 @@ public abstract class Controller<E extends IdEntity,K> {
         }
     }
 
-    public abstract boolean create(E entity) throws SQLException, ControllerException;
+    public abstract boolean create(E entity) throws SQLException, ControllerException, ClassNotFoundException;
 //    {
 //        for(E e : this.getAll())
 //        {

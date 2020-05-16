@@ -3,9 +3,11 @@ package by.bsu.ilyin.service;
 import by.bsu.ilyin.dao.RecipeController;
 import by.bsu.ilyin.entities.Recipe;
 
+import java.sql.SQLException;
+
 public class RecipeService extends Service<Recipe,Integer> {
 
-    public RecipeService(){
+    public RecipeService() throws SQLException, ClassNotFoundException {
         controller=new RecipeController();
     }
 

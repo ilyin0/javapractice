@@ -49,7 +49,7 @@ public class UserController extends Controller<User, Integer> {
         JSONArray jsonArray = new JSONArray();
         while(resultSet.next()){
             JSONObject record = new JSONObject();
-            record.put("id", resultSet.getInt("id"));
+            record.put("id", resultSet.getInt("UID"));
             record.put("name", resultSet.getString("name"));
             record.put("email", resultSet.getString("email"));
             record.put("password", resultSet.getString("password"));
@@ -95,7 +95,7 @@ public class UserController extends Controller<User, Integer> {
             }
             else throw new ControllerException("Entity wasn't created!");
         }
-        catch (ControllerException | SQLException e){
+        catch (ControllerException | SQLException | ClassNotFoundException e){
             logger.error(e.getMessage());
             return false;
         }
@@ -104,7 +104,7 @@ public class UserController extends Controller<User, Integer> {
     @Override
     public boolean update(User entity) throws SQLException, ControllerException {
         //Statement statement = connection.createStatement();
-        String query = "UPDATE \"User\" SET email="+entity.getEmail()+", \"name\"="+entity.getName()+", password="+entity.getPassword();
+        String query = "UPDATE \"User\" SET \"name\"=\'"+entity.getName()+"\', \"password\"= \'"+entity.getPassword() + "\' WHERE \"email\" = \'" + entity.getEmail() + "\'";
         try {
             int e = dbc.getConnection().createStatement().executeUpdate(query);
             if (e > 0) {
@@ -122,7 +122,7 @@ public class UserController extends Controller<User, Integer> {
     @Override
     public boolean delete(Integer id) throws SQLException, ControllerException {
         //Statement statement = connection.createStatement();
-        String query = "DELETE FROM \"User\" WHERE \"id\"=\'"+id + "\'";
+        String query = "DELETE FROM \"User\" WHERE \"UID\"=\'"+id + "\'";
         try{
             dbc.getConnection().createStatement().executeUpdate(query);
         }

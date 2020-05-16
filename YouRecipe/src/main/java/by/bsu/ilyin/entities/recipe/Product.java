@@ -9,7 +9,7 @@ import java.util.StringJoiner;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true)
+@ToString
 public class Product extends IdEntity {
     private String name;
     private String type = " ";
@@ -20,7 +20,8 @@ public class Product extends IdEntity {
 
     public Product(){super();}
 
-    public Product(String name, int calorificValue, int proteins, int fats, int carbohydrates) {
+    public Product(int id, String name, int calorificValue, int proteins, int fats, int carbohydrates) {
+        super(id);
         this.name = name;
         this.calorificValue = calorificValue;
         this.proteins = proteins;
@@ -32,5 +33,18 @@ public class Product extends IdEntity {
         this.name = name;
         this.type = type;
         this.calorificValue = calorificValue;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Product.class.getSimpleName() + "[", "]")
+                .add("id='" + getId() + "'")
+                .add("name='" + name + "'")
+                .add("type='" + type + "'")
+                .add("calorificValue=" + calorificValue)
+                .add("proteins=" + proteins)
+                .add("fats=" + fats)
+                .add("carbohydrates=" + carbohydrates)
+                .toString();
     }
 }

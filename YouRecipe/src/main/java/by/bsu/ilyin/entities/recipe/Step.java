@@ -1,9 +1,12 @@
 package by.bsu.ilyin.entities.recipe;
 
 import by.bsu.ilyin.entities.IdEntity;
+import lombok.Data;
 
 import java.util.StringJoiner;
 
+
+@Data
 public class Step  extends IdEntity {
     private String image;
     private String describe;
@@ -33,21 +36,7 @@ public class Step  extends IdEntity {
         this.recipeId = recipeId;
     }
 
-    public String getImage() {
-        return image;
-    }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getDescribe() {
-        return describe;
-    }
-
-    public void setDescribe(String describe) {
-        this.describe = describe;
-    }
 
 
     @Override

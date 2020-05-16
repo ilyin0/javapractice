@@ -13,6 +13,7 @@ import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
+import java.sql.SQLException;
 import java.util.*;
 
 public class UI {
@@ -23,7 +24,7 @@ public class UI {
     Service entityService;
     Logger logger = LogManager.getLogger();
 
-    public UI(){
+    public UI() throws SQLException, ClassNotFoundException {
         super();
     }
 

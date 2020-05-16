@@ -65,13 +65,13 @@ public class RecipeController extends Controller<Recipe, Integer> {
         while(resultSetOfRecipes.next()){
             recordRecipe = new JSONObject();
 
-            idOfCurrentRecipe = resultSetOfRecipes.getInt("id");
+            idOfCurrentRecipe = resultSetOfRecipes.getInt("RID");
 
             recordRecipe.put("id", idOfCurrentRecipe);
-            recordRecipe.put("name", resultSetOfRecipes.getString("recipe_name"));
-            recordRecipe.put("userId", recordRecipe.getInt("user_id"));
+            recordRecipe.put("name", resultSetOfRecipes.getString("name"));
+            recordRecipe.put("userId", resultSetOfRecipes.getInt("userId"));
 
-            queryUnitsOfRecipe = "SELECT u.id uid, p.id pid, * FROM \"UnitOfRecipe\" u JOIN \"Product\" p ON p.id = u.productId WHERE u.recipeId = " + idOfCurrentRecipe;
+            queryUnitsOfRecipe = "select * from \"UnitOfRecipe\" inner join \"Product\" on \"productId\" = \"PID\" where \"recipeId\" =" + idOfCurrentRecipe;
             resultSetOfUnitsOfRecipe = dbc.getConnection().createStatement().executeQuery(queryUnitsOfRecipe);
             jsonArrayOfUnitsOfRecipe = new JSONArray();
             while(resultSetOfUnitsOfRecipe.next()){
@@ -84,10 +84,10 @@ public class RecipeController extends Controller<Recipe, Integer> {
                 recordProduct.put("carbohydrates", resultSetOfUnitsOfRecipe.getInt("carbohydrates"));
 
                 recordUnitOfRecipe = new JSONObject();
-                recordUnitOfRecipe.put("id", resultSetOfUnitsOfRecipe.getInt("uid"));
+                recordUnitOfRecipe.put("id", resultSetOfUnitsOfRecipe.getInt("UORID"));
                 recordUnitOfRecipe.put("product", recordProduct);
                 recordUnitOfRecipe.put("amount", resultSetOfUnitsOfRecipe.getInt("amount"));
-                recordUnitOfRecipe.put("measure", recordUnitOfRecipe.getString("measure"));
+                recordUnitOfRecipe.put("measure", resultSetOfUnitsOfRecipe.getString("measure"));
                 recordUnitOfRecipe.put("recipeId", idOfCurrentRecipe);
 
                 jsonArrayOfUnitsOfRecipe.put(recordUnitOfRecipe);
@@ -95,12 +95,12 @@ public class RecipeController extends Controller<Recipe, Integer> {
 
             recordRecipe.put("unitsOfRecipe", jsonArrayOfUnitsOfRecipe);
 
-            querySteps = "SELECT * FROM \"Steps\" s WHERE s.recipeId = " + idOfCurrentRecipe + " ORDER BY s.stepNumber";
+            querySteps = "SELECT * FROM \"Step\" WHERE \"recipeId\" = " + idOfCurrentRecipe + " ORDER BY \"stepNumber\"";
             resultSetOfSteps = dbc.getConnection().createStatement().executeQuery(querySteps);
             jsonArrayOfSteps = new JSONArray();
             while(resultSetOfSteps.next()){
                 recordStep = new JSONObject();
-                recordStep.put("id", resultSetOfSteps.getInt("id"));
+                recordStep.put("id", resultSetOfSteps.getInt("SID"));
                 recordStep.put("image", resultSetOfSteps.getString("image"));
                 recordStep.put("describe", resultSetOfSteps.getString("describe"));
                 recordStep.put("stepNumber", resultSetOfSteps.getInt("stepNumber"));
@@ -117,13 +117,13 @@ public class RecipeController extends Controller<Recipe, Integer> {
     }
 
     @Override
-    public boolean create(Recipe entity) throws SQLException, ControllerException {
+    public boolean create(Recipe entity) throws SQLException, ControllerException, ClassNotFoundException {
         //INSERT INTO \"User\" (\"name\", \"email\", \"password\") VALUES (\'" + entity.getName() + "\', \'" + entity.getEmail() + "\', \'" + entity.getPassword() + "\')
 
         int executeCheck;
 
         //add recipe into the database
-        dbc.getConnection().createStatement().executeUpdate("INSERT INTO \"Recipe\" (\"userId\", \"name\") VALUES (\'21\', \'" + entity.getName() + "\')");
+        dbc.getConnection().createStatement().executeUpdate("INSERT INTO \"Recipe\" (\"userId\", \"name\") VALUES (\'1\', \'" + entity.getName() + "\')");
 
         //add product into database
         StringBuilder queryProduct;
@@ -186,7 +186,7 @@ public class RecipeController extends Controller<Recipe, Integer> {
 
     @Override
     public boolean delete(Integer id) throws IOException, SQLException, JSONException, ClassNotFoundException, ControllerException {
-        String queryRecipe = "DELETE FROM \"Recipe\" WHERE \"id\" = \'" + id + "\'";
+        String queryRecipe = "DELETE FROM \"Recipe\" WHERE \"RID\" = \'" + id + "\'";
         String queryStep = "DELETE FROM \"Step\" WHERE \"recipeId\" = \'" + id + "\'";
         String queryUnitOfRecipe = "DELETE FROM \"UnitOfRecipe\" WHERE \"recipeId\" = \'" + id + "\'";
         try {
@@ -217,14 +217,18 @@ public class RecipeController extends Controller<Recipe, Integer> {
         return null;
     }
 
-    private int getIdOfRecipeByName(String name) throws SQLException {
-        String query = "SELECT \'id\' FROM \"Recipe\" WHERE \'name\' = " + name;
-        return dbc.getConnection().createStatement().executeQuery(query).getInt("id");
+    private int getIdOfRecipeByName(String name) throws SQLException, ClassNotFoundException {
+        String query = "SELECT \"RID\" FROM \"Recipe\" WHERE \"name\" = \'" + name + "\'";
+        ResultSet resultSet =  dbc.getConnection().createStatement().executeQuery(query);
+        resultSet.next();
+        return resultSet.getInt("RID");
     }
 
-    private int getIdOfProductByName(String name) throws SQLException {
-        String query = "SELECT \'id\' FROM \"Product\" WHERE \'name\' = " + name;
-        return dbc.getConnection().createStatement().executeQuery(query).getInt("id");
+    private int getIdOfProductByName(String name) throws SQLException, ClassNotFoundException {
+        String query = "SELECT \"PID\" FROM \"Product\" WHERE \"name\" = \'" + name + "\'";
+        ResultSet resultSet =  dbc.getConnection().createStatement().executeQuery(query);
+        resultSet.next();
+        return resultSet.getInt("PID");
     }
 
 
