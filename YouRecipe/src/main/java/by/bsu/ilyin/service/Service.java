@@ -1,6 +1,6 @@
 package by.bsu.ilyin.service;
 
-import by.bsu.ilyin.dao.Controller;
+import by.bsu.ilyin.controller.Controller;
 import by.bsu.ilyin.entities.IdEntity;
 import by.bsu.ilyin.exceptions.ControllerException;
 import org.apache.logging.log4j.LogManager;
@@ -15,17 +15,11 @@ public abstract class Service<E extends IdEntity,K> {
     Controller<E,K> controller;
     Logger logger = LogManager.getLogger();
 
-    public boolean updateDb(List<E>list){
-        return controller.updateDb(list);
-    }
     public  E[] getAll() throws IOException, SQLException, JSONException, ClassNotFoundException {
         return controller.getAll();
     }
     public E getById(K id) throws Exception {
         return controller.getById(id);
-    }
-    public boolean updateDb(E[]es){
-        return controller.updateDb(es);
     }
 
     public List<E> getAllAsList() throws IOException, SQLException, JSONException, ClassNotFoundException {

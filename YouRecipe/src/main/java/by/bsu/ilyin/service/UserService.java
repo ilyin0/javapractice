@@ -1,6 +1,6 @@
 package by.bsu.ilyin.service;
 
-import by.bsu.ilyin.dao.UserController;
+import by.bsu.ilyin.controller.UserController;
 import by.bsu.ilyin.entities.User;
 
 import java.sql.SQLException;

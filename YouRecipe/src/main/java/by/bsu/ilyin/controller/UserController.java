@@ -1,72 +1,74 @@
-package by.bsu.ilyin.dao;
+package by.bsu.ilyin.controller;
 
-import by.bsu.ilyin.dbc.DBC;
 import by.bsu.ilyin.entities.User;
 import by.bsu.ilyin.exceptions.ControllerException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.SneakyThrows;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.swing.plaf.nimbus.State;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserController extends Controller<User, Integer> {
 
     public UserController() throws SQLException, ClassNotFoundException {
         super();
-        this.mapper=new ObjectMapper();
-        this.converter=new UserConverter();
-        //connection = DBC.getConnection();
-    }
-
-    public UserController(Connection con) throws SQLException, ClassNotFoundException {
-        super();
-        this.mapper = new ObjectMapper();
-        this.converter = new UserConverter();
-        //this.connection = con;
     }
 
     @Override
-    public User[] getAll() throws IOException, SQLException, ClassNotFoundException, JSONException {
+    public User[] getAll() {
         return this.getAllAsList().toArray(new User[0]);
     }
 
+    @SneakyThrows
     @Override
-    public List<User> getAllAsList() throws SQLException, JSONException, ClassNotFoundException, JsonProcessingException {
-        return converter.fromJSONToList(getAllAsJSONString());
-    }
-
-    private String getAllAsJSONString() throws SQLException, ClassNotFoundException, JSONException {
+    public List<User> getAllAsList()  {
+        Connection connection = dbc.getConnection();
         ResultSet resultSet = getAllAsResultSet();
-        JSONArray jsonArray = new JSONArray();
-        while(resultSet.next()){
-            JSONObject record = new JSONObject();
-            record.put("id", resultSet.getInt("UID"));
-            record.put("name", resultSet.getString("name"));
-            record.put("email", resultSet.getString("email"));
-            record.put("password", resultSet.getString("password"));
-            jsonArray.put(record);
+        List<User>users = new ArrayList<>();
+        User user;
+        while(resultSet.next()) {
+            user = new User();
+            user.setId(resultSet.getInt("UID"));
+            user.setEmail(resultSet.getString("email"));
+            user.setName(resultSet.getString("name"));
+            user.setPassword(resultSet.getString("password"));
+
+            users.add(user);
         }
-        return jsonArray.toString();
+        return users;
     }
 
-    private ResultSet getAllAsResultSet() throws SQLException, ClassNotFoundException {
-        //Statement statement = connection.createStatement();
+
+    @SneakyThrows
+    @Override
+    public User getById(Integer id) {
+        String query = "SELECT * FROM \"User\" WHERE \"UID\" = '" +id+"'";
+        ResultSet resultSet = dbc.getConnection().createStatement().executeQuery(query);
+        User user = new User();
+        resultSet.next();
+        user.setId(resultSet.getInt("id"));
+        user.setName(resultSet.getString("name"));
+        user.setEmail(resultSet.getString("email"));
+        user.setPassword(resultSet.getString("password"));
+
+        return user;
+    }
+
+    @SneakyThrows
+    private ResultSet getAllAsResultSet() {
         String query = "SELECT * FROM \"User\"";
         return dbc.getConnection().createStatement().executeQuery(query);
-    }
-
-    @Override
-    public boolean updateDb(List<User>list)  {
-        return updateDb(list.toArray(new User[0]));
     }
 
     @Override
@@ -78,7 +80,7 @@ public class UserController extends Controller<User, Integer> {
             }
             throw new ControllerException("User having this email doesn't exist");
         }
-        catch(ControllerException | SQLException | JSONException | ClassNotFoundException | JsonProcessingException exception) {
+        catch(ControllerException exception) {
             logger.error(exception.getMessage());
         }
         return null;
@@ -95,14 +97,15 @@ public class UserController extends Controller<User, Integer> {
             }
             else throw new ControllerException("Entity wasn't created!");
         }
-        catch (ControllerException | SQLException | ClassNotFoundException e){
+        catch (ControllerException | SQLException e){
             logger.error(e.getMessage());
             return false;
         }
     }
 
+    @SneakyThrows
     @Override
-    public boolean update(User entity) throws SQLException, ControllerException {
+    public boolean update(User entity)  {
         //Statement statement = connection.createStatement();
         String query = "UPDATE \"User\" SET \"name\"=\'"+entity.getName()+"\', \"password\"= \'"+entity.getPassword() + "\' WHERE \"email\" = \'" + entity.getEmail() + "\'";
         try {
@@ -120,7 +123,7 @@ public class UserController extends Controller<User, Integer> {
     }
 
     @Override
-    public boolean delete(Integer id) throws SQLException, ControllerException {
+    public boolean delete(Integer id)  {
         //Statement statement = connection.createStatement();
         String query = "DELETE FROM \"User\" WHERE \"UID\"=\'"+id + "\'";
         try{

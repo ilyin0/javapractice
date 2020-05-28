@@ -1,16 +1,17 @@
-package by.bsu.ilyin.dao;
+package by.bsu.ilyin.controller;
 
 import by.bsu.ilyin.entities.MenuUnit;
-import by.bsu.ilyin.exceptions.ControllerException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONException;
+import lombok.SneakyThrows;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
 public class MenuUnitController extends Controller<MenuUnit,Integer> {
+    ObjectMapper mapper;
+    Database database;
+    Converter converter;
+
     public MenuUnitController() throws SQLException, ClassNotFoundException {
         super();
         this.mapper=new ObjectMapper();
@@ -19,18 +20,24 @@ public class MenuUnitController extends Controller<MenuUnit,Integer> {
     }
 
     @Override
-    public MenuUnit[] getAll() throws IOException, SQLException, JSONException, ClassNotFoundException {
+    public MenuUnit[] getAll() {
         return getAllAsList().toArray(new MenuUnit[0]);
     }
 
+    @SneakyThrows
     @Override
-    public boolean updateDb(List<MenuUnit> list) {
-        return updateDb(list.toArray(new MenuUnit[0]));
+    public List<MenuUnit> getAllAsList(){
+        return this.converter.fromJSONFileToList(this.database.getDb());
     }
 
-    @java.lang.Override
-    public List<MenuUnit> getAllAsList() throws SQLException, ClassNotFoundException, JSONException, IOException {
-        return this.converter.fromJSONFileToList(this.database.getDb());
+    @Override
+    public MenuUnit getById(Integer id) {
+        return null;
+    }
+
+    @Override
+    public boolean delete(Integer id) {
+        return false;
     }
 
     @Override
@@ -49,7 +56,12 @@ public class MenuUnitController extends Controller<MenuUnit,Integer> {
     }
 
     @Override
-    public boolean create(MenuUnit entity) throws SQLException, ControllerException {
+    public boolean create(MenuUnit entity) {
+        return false;
+    }
+
+    @Override
+    public boolean update(MenuUnit entity) {
         return false;
     }
 }

@@ -1,6 +1,6 @@
 package by.bsu.ilyin.service;
 
-import by.bsu.ilyin.dao.MenuUnitController;
+import by.bsu.ilyin.controller.MenuUnitController;
 import by.bsu.ilyin.entities.MenuUnit;
 
 import java.sql.SQLException;

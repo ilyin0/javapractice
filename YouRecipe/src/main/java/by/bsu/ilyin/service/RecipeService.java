@@ -1,6 +1,6 @@
 package by.bsu.ilyin.service;
 
-import by.bsu.ilyin.dao.RecipeController;
+import by.bsu.ilyin.controller.RecipeController;
 import by.bsu.ilyin.entities.Recipe;
 
 import java.sql.SQLException;
