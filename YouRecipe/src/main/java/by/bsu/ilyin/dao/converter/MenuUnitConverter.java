@@ -1,16 +1,16 @@
-package by.bsu.ilyin.dao;
+package by.bsu.ilyin.dao.converter;
 
-import by.bsu.ilyin.entities.Recipe;
+import by.bsu.ilyin.entities.MenuUnit;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.List;
 
-public class RecipeConverter extends Converter<Recipe> {
+public class MenuUnitConverter extends Converter<MenuUnit> {
     @Override
-    public List<Recipe> fromJSONToList(String JSONString) {
+    public List<MenuUnit> fromJSONToList(String JSONString) {
         try {
-            return objectMapper.readValue(JSONString, new TypeReference<List<Recipe>>() {});
+            return objectMapper.readValue(JSONString, new TypeReference<List<MenuUnit>>() {});
         } catch (JsonProcessingException e) {
             logger.error(e.getMessage());
         }

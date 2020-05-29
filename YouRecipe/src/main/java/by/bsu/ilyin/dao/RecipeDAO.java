@@ -24,16 +24,15 @@ public class RecipeDAO extends DAO<Recipe, Integer> {
         return this.getAllAsList().toArray(new Recipe[0]);
     }
 
-
     @SneakyThrows
     @Override
     public List<Recipe> getAllAsList() {
 
         Connection connection = dbc.getConnection();
 
-        connection.setAutoCommit(false);
+        //connection.setAutoCommit(false); - мусор
 
-        Savepoint savepoint = connection.setSavepoint("Savepoint");
+        //Savepoint savepoint = connection.setSavepoint("savepoint"); - мусор
 
         try {
             Statement statement = connection.createStatement();
@@ -103,7 +102,7 @@ public class RecipeDAO extends DAO<Recipe, Integer> {
         }
         catch (SQLException e){
             logger.error(e.getMessage());
-            connection.rollback(savepoint);
+            //connection.rollback(savepoint);
         }
         return null;
     }
@@ -113,28 +112,29 @@ public class RecipeDAO extends DAO<Recipe, Integer> {
     public Recipe getById(Integer id) {
         Connection connection = dbc.getConnection();
 
-        connection.setAutoCommit(false);
+        //connection.setAutoCommit(false);
 
-        Savepoint savepoint = connection.setSavepoint("Savepoint");
+        //Savepoint savepoint = connection.setSavepoint("Savepoint");
 
         try {
             Statement statement = connection.createStatement();
 
-            String queryRecipe = "SELECT * FROM \"Recipe\" WHERE 'id'='" + id+"'";
+            String queryRecipe = "SELECT * FROM \"Recipe\" WHERE \"RID\"='" + id+"'";
 
             ResultSet recipeResultSet = statement.executeQuery(queryRecipe);
             Recipe recipe = new Recipe();
             List<UnitOfRecipe> unitOfRecipeList = new ArrayList<>();
-            while (recipeResultSet.next()) {
+            recipeResultSet.next();
                 recipe.setId(recipeResultSet.getInt("RID"));
                 recipe.setName(recipeResultSet.getString("name"));
                 recipe.setUserId(recipeResultSet.getInt("userId"));
-            }
+
 
             String queryUnitsOfRecipe = "select * from \"UnitOfRecipe\" inner join \"Product\" on \"productId\" = \"PID\" where \"recipeId\" ='" + recipeResultSet.getInt("RID")+"'";
             ResultSet resultSetOfUnitsOfRecipe = dbc.getConnection().createStatement().executeQuery(queryUnitsOfRecipe);
             while (resultSetOfUnitsOfRecipe.next()) {
                 Product product = new Product();
+                product.setId(resultSetOfUnitsOfRecipe.getInt("productID"));
                 product.setName(resultSetOfUnitsOfRecipe.getString("name"));
                 product.setType(resultSetOfUnitsOfRecipe.getString("type"));
                 product.setCalorificValue(resultSetOfUnitsOfRecipe.getInt("calorificValue"));
@@ -148,7 +148,7 @@ public class RecipeDAO extends DAO<Recipe, Integer> {
                 unitOfRecipe.setProduct(product);
                 unitOfRecipe.setAmount(resultSetOfUnitsOfRecipe.getInt("amount"));
                 unitOfRecipe.setMeasure(resultSetOfUnitsOfRecipe.getString("measure"));
-                unitOfRecipe.setRecipeId(recipeResultSet.getInt("RID"));
+                unitOfRecipe.setRecipeId(resultSetOfUnitsOfRecipe.getInt("recipeId"));
 
                 unitOfRecipeList.add(unitOfRecipe);
             }
@@ -163,7 +163,7 @@ public class RecipeDAO extends DAO<Recipe, Integer> {
 
             while(resultSetOfSteps.next()){
                 Step step = new Step();
-                step.setRecipeId(recipeResultSet.getInt("RID"));
+                step.setRecipeId(resultSetOfSteps.getInt("recipeId"));
                 step.setId(resultSetOfSteps.getInt("SID"));
                 step.setDescribe(resultSetOfSteps.getString("describe"));
                 step.setImage(resultSetOfSteps.getString("describe"));
@@ -178,7 +178,7 @@ public class RecipeDAO extends DAO<Recipe, Integer> {
         }
         catch (SQLException e){
             logger.error(e.getMessage());
-            connection.rollback(savepoint);
+            //connection.rollback(savepoint);
         }
         return null;
     }
@@ -190,14 +190,14 @@ public class RecipeDAO extends DAO<Recipe, Integer> {
 
         connection.setAutoCommit(false);
 
-        Savepoint savepoint = connection.setSavepoint("Savepoint");
+        Savepoint savepoint = connection.setSavepoint("savepoint");
 
         int executeCheck;
 
         try {
 
             //add recipe into the database
-            connection.createStatement().executeUpdate("INSERT INTO \"Recipe\" (\"userId\", \"name\") VALUES (\'1\', \'" + entity.getName() + "\')");
+            connection.createStatement().executeUpdate("INSERT INTO \"Recipe\" (\"userId\", \"name\") VALUES (\'2\', \'" + entity.getName() + "\')");
 
             //add product into database
             StringBuilder queryProduct;
@@ -267,7 +267,6 @@ public class RecipeDAO extends DAO<Recipe, Integer> {
         return false;
     }
 
-    //TODO: fill this method by necessary code
     @SneakyThrows
     @Override
     public boolean update(Recipe entity) {
@@ -275,7 +274,7 @@ public class RecipeDAO extends DAO<Recipe, Integer> {
 
         connection.setAutoCommit(false);
 
-        Savepoint savepoint = connection.setSavepoint("Savepoint");
+        Savepoint savepoint = connection.setSavepoint("savepoint");
 
         try {
             String recipeQuery = "UPDATE \"Recipe\" SET \"name\" = '" + entity.getName() + "', \"userId\" = '" + entity.getUserId() + "' WHERE \"RID\" = '" + entity.getId()+"'";
@@ -289,7 +288,7 @@ public class RecipeDAO extends DAO<Recipe, Integer> {
 
             for (UnitOfRecipe unit : entity.getUnitsOfRecipe()) {
                 String unitsOfRecipeQuery = "UPDATE \"UnitOfRecipe\" SET \"amount\" = '" + unit.getAmount() + "', \"measure\" = '" + unit.getMeasure() + "' WHERE \"UORID\" = '" + unit.getId() + "'";
-                String productQuery = "UPDATE (SELECT * FROM \"Step\" INNER JOIN \"UnitOfRecipe\" ON \"PID\" = \"productId\" WHERE \"UORID\" = '" + unit.getId() + "') SET \"name\" = '" + unit.getProduct().getName() + "', \"type\" = '" + unit.getProduct().getType() + "', \"calorificValue\" = '" + unit.getProduct().getCalorificValue() + "', \"proteins\" = '" + unit.getProduct().getProteins() + "', \"fats\" = '" + unit.getProduct().getFats() + "', \"carbohydrates\" = '" + unit.getProduct().getCarbohydrates() + "'";
+                String productQuery = "UPDATE (SELECT * FROM \"Product\" INNER JOIN \"UnitOfRecipe\" ON \"PID\" = \"productId\" WHERE \"UORID\" = '" + unit.getId() + "') SET \"name\" = '" + unit.getProduct().getName() + "', \"type\" = '" + unit.getProduct().getType() + "', \"calorificValue\" = '" + unit.getProduct().getCalorificValue() + "', \"proteins\" = '" + unit.getProduct().getProteins() + "', \"fats\" = '" + unit.getProduct().getFats() + "', \"carbohydrates\" = '" + unit.getProduct().getCarbohydrates() + "'";
                 connection.createStatement().executeUpdate(unitsOfRecipeQuery);
                 connection.createStatement().executeUpdate(productQuery);
             }
@@ -317,9 +316,11 @@ public class RecipeDAO extends DAO<Recipe, Integer> {
         String queryStep = "DELETE FROM \"Step\" WHERE \"recipeId\" = \'" + id + "\'";
         String queryUnitOfRecipe = "DELETE FROM \"UnitOfRecipe\" WHERE \"recipeId\" = \'" + id + "\'";
         try {
-            dbc.getConnection().createStatement().executeUpdate(queryRecipe);
-            dbc.getConnection().createStatement().executeUpdate(queryStep);
             dbc.getConnection().createStatement().executeUpdate(queryUnitOfRecipe);
+            dbc.getConnection().createStatement().executeUpdate(queryStep);
+            dbc.getConnection().createStatement().executeUpdate(queryRecipe);
+
+
             connection.commit();
         }
         catch (SQLException e){
