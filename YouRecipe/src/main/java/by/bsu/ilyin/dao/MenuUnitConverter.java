@@ -1,4 +1,4 @@
-package by.bsu.ilyin.controller;
+package by.bsu.ilyin.dao;
 
 import by.bsu.ilyin.entities.MenuUnit;
 import com.fasterxml.jackson.core.JsonProcessingException;

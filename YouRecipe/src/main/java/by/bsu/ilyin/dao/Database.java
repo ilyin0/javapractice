@@ -1,4 +1,4 @@
-package by.bsu.ilyin.controller;
+package by.bsu.ilyin.dao;
 
 import java.io.File;
 
