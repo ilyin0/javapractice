@@ -1,10 +1,7 @@
 <component name="libraryTable">
   <library name="dms-796.2.664.0">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/dms-796.2.664.0.jar!/" />
-    </CLASSES>
+    <CLASSES />
     <JAVADOC />
     <SOURCES />
-    <jarDirectory url="jar://$PROJECT_DIR$/lib/dms-796.2.664.0.jar!/" recursive="false" />
   </library>
 </component>

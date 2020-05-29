@@ -1,6 +1,6 @@
 package by.bsu.ilyin.service;
 
-import by.bsu.ilyin.controller.MenuUnitController;
+import by.bsu.ilyin.dao.MenuUnitDAO;
 import by.bsu.ilyin.entities.MenuUnit;
 
 import java.sql.SQLException;
@@ -8,10 +8,10 @@ import java.sql.SQLException;
 public class MenuUnitService extends Service<MenuUnit,Integer> {
 
     public MenuUnitService() throws SQLException, ClassNotFoundException {
-        controller=new MenuUnitController();
+        DAO =new MenuUnitDAO();
     }
 
     public MenuUnit getByName(String name){
-        return controller.getByName(name);
+        return DAO.getByName(name);
     }
 }

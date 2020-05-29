@@ -1,6 +1,6 @@
 package by.bsu.ilyin.service;
 
-import by.bsu.ilyin.controller.Controller;
+import by.bsu.ilyin.dao.DAO;
 import by.bsu.ilyin.entities.IdEntity;
 import by.bsu.ilyin.exceptions.ControllerException;
 import org.apache.logging.log4j.LogManager;
@@ -12,22 +12,22 @@ import java.sql.SQLException;
 import java.util.List;
 
 public abstract class Service<E extends IdEntity,K> {
-    Controller<E,K> controller;
+    DAO<E,K> DAO;
     Logger logger = LogManager.getLogger();
 
     public  E[] getAll() throws IOException, SQLException, JSONException, ClassNotFoundException {
-        return controller.getAll();
+        return DAO.getAll();
     }
     public E getById(K id) throws Exception {
-        return controller.getById(id);
+        return DAO.getById(id);
     }
 
     public List<E> getAllAsList() throws IOException, SQLException, JSONException, ClassNotFoundException {
-        return controller.getAllAsList();
+        return DAO.getAllAsList();
     }
     public boolean create(Object entity) throws Exception {
         try {
-            return controller.create((E) entity);
+            return DAO.create((E) entity);
         }
         catch(ClassCastException e){
             logger.error(e);
@@ -36,7 +36,7 @@ public abstract class Service<E extends IdEntity,K> {
     }
     public boolean update(Object entity) throws Exception {
         try {
-            return controller.update((E) entity);
+            return DAO.update((E) entity);
         }
         catch(ClassCastException e){
             logger.error(e);
@@ -44,10 +44,10 @@ public abstract class Service<E extends IdEntity,K> {
         return false;
     }
     public boolean delete(E entity) throws IOException, SQLException, JSONException, ClassNotFoundException, ControllerException {
-        return controller.delete(entity);
+        return DAO.delete(entity);
     }
     public boolean delete(K id) throws IOException, SQLException, JSONException, ClassNotFoundException, ControllerException {
-        return controller.delete(id);
+        return DAO.delete(id);
     }
     public E getByName(String name){return null;}
     public E getByEmail(String name){return null;}
