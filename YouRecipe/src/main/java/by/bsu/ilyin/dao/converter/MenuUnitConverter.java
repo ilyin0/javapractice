@@ -1,4 +1,4 @@
-package by.bsu.ilyin.dao;
+package by.bsu.ilyin.dao.converter;
 
 import by.bsu.ilyin.entities.MenuUnit;
 import com.fasterxml.jackson.core.JsonProcessingException;

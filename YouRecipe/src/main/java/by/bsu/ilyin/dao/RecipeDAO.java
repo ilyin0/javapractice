@@ -24,7 +24,6 @@ public class RecipeDAO extends DAO<Recipe, Integer> {
         return this.getAllAsList().toArray(new Recipe[0]);
     }
 
-
     @SneakyThrows
     @Override
     public List<Recipe> getAllAsList() {
@@ -33,7 +32,7 @@ public class RecipeDAO extends DAO<Recipe, Integer> {
 
         connection.setAutoCommit(false);
 
-        Savepoint savepoint = connection.setSavepoint("Savepoint");
+        Savepoint savepoint = connection.setSavepoint("savepoint");
 
         try {
             Statement statement = connection.createStatement();
@@ -267,7 +266,6 @@ public class RecipeDAO extends DAO<Recipe, Integer> {
         return false;
     }
 
-    //TODO: fill this method by necessary code
     @SneakyThrows
     @Override
     public boolean update(Recipe entity) {

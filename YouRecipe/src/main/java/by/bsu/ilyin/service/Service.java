@@ -15,17 +15,17 @@ public abstract class Service<E extends IdEntity,K> {
     DAO<E,K> DAO;
     Logger logger = LogManager.getLogger();
 
-    public  E[] getAll() throws IOException, SQLException, JSONException, ClassNotFoundException {
+    public  E[] getAll()  {
         return DAO.getAll();
     }
-    public E getById(K id) throws Exception {
+    public E getById(K id){
         return DAO.getById(id);
     }
 
-    public List<E> getAllAsList() throws IOException, SQLException, JSONException, ClassNotFoundException {
+    public List<E> getAllAsList() {
         return DAO.getAllAsList();
     }
-    public boolean create(Object entity) throws Exception {
+    public boolean create(Object entity)  {
         try {
             return DAO.create((E) entity);
         }
@@ -34,7 +34,7 @@ public abstract class Service<E extends IdEntity,K> {
         }
         return false;
     }
-    public boolean update(Object entity) throws Exception {
+    public boolean update(Object entity) {
         try {
             return DAO.update((E) entity);
         }
@@ -43,10 +43,10 @@ public abstract class Service<E extends IdEntity,K> {
         }
         return false;
     }
-    public boolean delete(E entity) throws IOException, SQLException, JSONException, ClassNotFoundException, ControllerException {
+    public boolean delete(E entity) {
         return DAO.delete(entity);
     }
-    public boolean delete(K id) throws IOException, SQLException, JSONException, ClassNotFoundException, ControllerException {
+    public boolean delete(K id) {
         return DAO.delete(id);
     }
     public E getByName(String name){return null;}

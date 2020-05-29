@@ -1,4 +1,4 @@
-package by.bsu.ilyin.dao;
+package by.bsu.ilyin.dao.converter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
