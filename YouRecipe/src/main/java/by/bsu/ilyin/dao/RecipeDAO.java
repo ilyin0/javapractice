@@ -1,4 +1,4 @@
-package by.bsu.ilyin.controller;
+package by.bsu.ilyin.dao;
 
 import by.bsu.ilyin.entities.Recipe;
 import by.bsu.ilyin.entities.recipe.Product;
@@ -6,16 +6,16 @@ import by.bsu.ilyin.entities.recipe.Step;
 import by.bsu.ilyin.entities.recipe.UnitOfRecipe;
 import by.bsu.ilyin.exceptions.ControllerException;
 import lombok.SneakyThrows;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecipeController extends Controller<Recipe, Integer> {
+@Repository
+public class RecipeDAO extends DAO<Recipe, Integer> {
 
-    public RecipeController() throws SQLException, ClassNotFoundException {
+    public RecipeDAO() throws SQLException, ClassNotFoundException {
         super();
     }
 
@@ -311,7 +311,7 @@ public class RecipeController extends Controller<Recipe, Integer> {
 
         connection.setAutoCommit(false);
 
-        Savepoint savepoint = connection.setSavepoint("Savepoint");
+        Savepoint savepoint = connection.setSavepoint("savepoint");
 
         String queryRecipe = "DELETE FROM \"Recipe\" WHERE \"RID\" = \'" + id + "\'";
         String queryStep = "DELETE FROM \"Step\" WHERE \"recipeId\" = \'" + id + "\'";

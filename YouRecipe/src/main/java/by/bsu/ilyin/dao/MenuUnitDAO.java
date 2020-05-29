@@ -1,4 +1,4 @@
-package by.bsu.ilyin.controller;
+package by.bsu.ilyin.dao;
 
 import by.bsu.ilyin.entities.MenuUnit;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,12 +7,12 @@ import lombok.SneakyThrows;
 import java.sql.SQLException;
 import java.util.List;
 
-public class MenuUnitController extends Controller<MenuUnit,Integer> {
+public class MenuUnitDAO extends DAO<MenuUnit,Integer> {
     ObjectMapper mapper;
     Database database;
     Converter converter;
 
-    public MenuUnitController() throws SQLException, ClassNotFoundException {
+    public MenuUnitDAO() throws SQLException, ClassNotFoundException {
         super();
         this.mapper=new ObjectMapper();
         this.database = new Database("C:\\Study\\EPAM\\javapractice\\YouRecipe\\db\\UI\\UI.json");
