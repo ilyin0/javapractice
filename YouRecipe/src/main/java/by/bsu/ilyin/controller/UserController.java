@@ -19,7 +19,7 @@ public class UserController {
         super();
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<User>>getAll(){
         List<User>users = userService.getAllAsList();
         if(users!=null){
@@ -28,14 +28,22 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/notAll")
-    public ResponseEntity<User> getById(@RequestParam(value = "id") Integer id){
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getById(@PathVariable(value = "id") Integer id){
         User user = userService.getById(id);
         if(user!=null){
             return ResponseEntity.ok(user);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.HEAD)
+    public ResponseEntity<User> isEntityById(@PathVariable(value = "id") Integer id){
+        if(userService.getById(id)!=null) return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+
 
     @PostMapping
     public ResponseEntity<User>create(@RequestBody User user){
@@ -48,19 +56,20 @@ public class UserController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<User>update(@RequestBody User user){
+    @PutMapping("/{id}")
+    public ResponseEntity<User>update(@PathVariable(value = "id") Integer id, @RequestBody User user){
+        user.setId(id);
         boolean wasUpdated = userService.update(user);
         if(wasUpdated){
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void>delete(@RequestParam(value = "id") String id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void>delete(@PathVariable(value = "id") String id){
         boolean wasDeleted = userService.delete(Integer.valueOf(id));
         HttpStatus responseStatus = wasDeleted ? HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(responseStatus);

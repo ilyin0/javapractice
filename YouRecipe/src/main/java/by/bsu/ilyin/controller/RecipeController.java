@@ -2,6 +2,7 @@ package by.bsu.ilyin.controller;
 
 import by.bsu.ilyin.entities.Recipe;
 import by.bsu.ilyin.service.RecipeService;
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class RecipeController {
         super();
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<Recipe>>getAll(){
         List<Recipe>recipes = service.getAllAsList();
         if(recipes!=null){
@@ -27,8 +28,8 @@ public class RecipeController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/notAll")
-    public ResponseEntity<Recipe> getById(@RequestParam(value = "id") String id){
+    @GetMapping("/{id}")
+    public ResponseEntity<Recipe> getById(@PathVariable(value = "id") String id){
         Recipe recipe = service.getById(Integer.valueOf(id));
         if(recipe!=null){
             return ResponseEntity.ok(recipe);
@@ -40,26 +41,27 @@ public class RecipeController {
     public ResponseEntity<Recipe>create(@RequestBody Recipe recipe){
         boolean wasCreated = service.create(recipe);
         if(wasCreated){
-            return new ResponseEntity<>(recipe, HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         }
         else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 
-    @PutMapping
-    public ResponseEntity<Recipe>update(@RequestBody Recipe recipe){
+    @PutMapping("/{id}")
+    public ResponseEntity<Recipe>update(@PathVariable(value = "id") Integer id, @RequestBody Recipe recipe){
+        recipe.setId(id);
         boolean wasUpdated = service.update(recipe);
         if(wasUpdated){
-            return new ResponseEntity<>(recipe, HttpStatus.OK);
+            return new ResponseEntity<>(recipe, HttpStatus.NO_CONTENT);
         }
         else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void>delete(@RequestParam(value = "id") String id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void>delete(@PathVariable(value = "id") String id){
         boolean wasDeleted = service.delete(Integer.valueOf(id));
         HttpStatus responseStatus = wasDeleted ? HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(responseStatus);
