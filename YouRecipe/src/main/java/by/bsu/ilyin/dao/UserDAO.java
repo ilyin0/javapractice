@@ -1,9 +1,12 @@
 package by.bsu.ilyin.dao;
 
-import by.bsu.ilyin.entities.User;
+import by.bsu.ilyin.hibernate.User;
 import by.bsu.ilyin.exceptions.ControllerException;
 
+import by.bsu.ilyin.utils.HibernateSessionFactoryUtil;
 import lombok.SneakyThrows;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -27,105 +30,70 @@ public class UserDAO extends DAO<User, Integer> {
     @SneakyThrows
     @Override
     public List<User> getAllAsList()  {
-        Connection connection = dbc.getConnection();
-        ResultSet resultSet = getAllAsResultSet();
-        List<User>users = new ArrayList<>();
-        User user;
-        while(resultSet.next()) {
-            user = new User();
-            user.setId(resultSet.getInt("UID"));
-            user.setEmail(resultSet.getString("email"));
-            user.setName(resultSet.getString("name"));
-            user.setPassword(resultSet.getString("password"));
-
-            users.add(user);
-        }
-        return users;
+        return (List<User>) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("FROM User").list();
     }
 
 
     @SneakyThrows
     @Override
     public User getById(Integer id) {
-        String query = "SELECT * FROM \"User\" WHERE \"UID\" = '" +id+"'";
-        ResultSet resultSet = dbc.getConnection().createStatement().executeQuery(query);
-        User user = new User();
-        resultSet.next();
-        user.setId(resultSet.getInt("UID"));
-        user.setName(resultSet.getString("name"));
-        user.setEmail(resultSet.getString("email"));
-        user.setPassword(resultSet.getString("password"));
-
-        return user;
-    }
-
-    @SneakyThrows
-    private ResultSet getAllAsResultSet() {
-        String query = "SELECT * FROM \"User\"";
-        return dbc.getConnection().createStatement().executeQuery(query);
+        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(User.class, id);
     }
 
     @Override
     public User getByEmail(String email){
-        try {
-            List<User> users = this.getAllAsList();
-            for (User user : users) {
-                if (email.equals(user.getEmail())) return user;
-            }
-            throw new ControllerException("User having this email doesn't exist");
-        }
-        catch(ControllerException exception) {
-            logger.error(exception.getMessage());
-        }
-        return null;
+        return (User) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("FROM User WHERE \"email\"="+email);
     }
 
     @Override
     public boolean create(User entity)  {
-        String query = "INSERT INTO \"User\" (\"name\", \"email\", \"password\") VALUES (\'" + entity.getName() + "\', \'" + entity.getEmail() + "\', \'" + entity.getPassword() + "\')";
-        try {
-            int e = dbc.getConnection().createStatement().executeUpdate(query);
-            if (e > 0) {
-                logger.info("Entity was added into the database");
-                return true;
-            }
-            else throw new ControllerException("Entity wasn't created!");
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        try{
+            session.save(entity);
+            transaction.commit();
+            return true;
         }
-        catch (ControllerException | SQLException e){
+        catch (Exception e){
             logger.error(e.getMessage());
-            return false;
         }
+        session.close();
+        return false;
     }
 
     @Override
     public boolean update(User entity)  {
-        String query = "UPDATE \"User\" SET \"name\"=\'"+entity.getName()+"\', \"password\"= \'"+entity.getPassword() + "\' WHERE \"email\" = \'" + entity.getEmail() + "\'";
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
         try {
-            int e = dbc.getConnection().createStatement().executeUpdate(query);
-            if (e > 0) {
-                logger.info("Entity was updated!");
-                return true;
-            }
-            else throw new ControllerException("Entity wasn't updated!");
+            session.update(entity);
+            transaction.commit();
+            return true;
         }
-        catch (Exception e) {
+        catch (Exception e){
             logger.error(e.getMessage());
-            return false;
         }
+        finally {
+            session.close();
+        }
+        return false;
     }
 
     @Override
     public boolean delete(Integer id)  {
-        //Statement statement = connection.createStatement();
-        String query = "DELETE FROM \"User\" WHERE \"UID\"=\'"+id + "\'";
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
         try{
-            dbc.getConnection().createStatement().executeUpdate(query);
+            session.delete(getById(id));
+            transaction.commit();
+            return true;
         }
         catch (Exception e){
             logger.error(e.getMessage());
-            return false;
         }
-        logger.info("User with id = "+id+" was deleted!");
-        return true;
+        finally {
+            session.close();
+        }
+        return false;
     }
 }
