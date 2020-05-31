@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect">
+            org.hibernate.dialect.Oracle12cDialect
+        </property>
+        <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
+
+        <!-- Assume YouRecipe is the database name -->
+        <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:orcl</property>
+        <mapping class="by.bsu.ilyin.hibernate.Product"/>
+        <mapping class="by.bsu.ilyin.hibernate.Recipe"/>
+        <mapping class="by.bsu.ilyin.hibernate.Step"/>
+        <mapping class="by.bsu.ilyin.hibernate.UnitOfRecipe"/>
+        <mapping class="by.bsu.ilyin.hibernate.User"/>
+
+        <!-- List of XML mapping files -->
+
+    </session-factory>
+</hibernate-configuration>

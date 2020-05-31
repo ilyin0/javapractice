@@ -97,10 +97,8 @@ public class UserDAO extends DAO<User, Integer> {
         }
     }
 
-    @SneakyThrows
     @Override
     public boolean update(User entity)  {
-        //Statement statement = connection.createStatement();
         String query = "UPDATE \"User\" SET \"name\"=\'"+entity.getName()+"\', \"password\"= \'"+entity.getPassword() + "\' WHERE \"email\" = \'" + entity.getEmail() + "\'";
         try {
             int e = dbc.getConnection().createStatement().executeUpdate(query);

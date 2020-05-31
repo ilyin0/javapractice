@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.proselyte.hibernate.example.model.Developer" table="HIBERNATE_DEVELOPERS">
+        <meta attribute="class-description">
+            This class contains developer's details.
+        </meta>
+        <id name="id" type="int" column="ID">
+            <generator class="native"/>
+        </id>
+        <property name="firstName" column="FIRST_NAME" type="string"/>
+        <property name="lastName" column="LAST_NAME" type="string"/>
+        <property name="specialty" column="SPECIALTY" type="string"/>
+        <property name="experience" column="EXPERIENCE" type="int"/>
+    </class>
+
+    <class name="by.bsu.ilyin.entities.recipe.Product" table="Product">
+        <meta attribute="class-description">
+            This class contains info about products
+        </meta>
+        <id name="id" type="java.lang.Integer" column="PID">
+            <generator class="native"/>
+        </id>
+        <property name="name" column="name" type="string"/>
+        <property name="type" column="type" type="string"/>
+        <property name="calorificValue" column="calorificValue" type="string"/>
+        <property name="proteins" column="proteins" type="int"/>
+        <property name="fats" column="fats" type="int"/>
+        <property name="carbohydrates" column="carbohydrates" type="int"/>
+    </class>
+
+    <class name="by.bsu.ilyin.entities.recipe.UnitOfRecipe">
+        <id name="id" type="java.lang.Integer" column="UORID">
+            <generator class="native"/>
+        </id>
+        <property name="recipeId" type="int" column="recipeId"/>
+        <property name="product" type="by.bsu.ilyin.entities.recipe.Product" column="productId"/>
+        <property name="amount" type="int" column="amount"/>
+        <property name="measure" type="string" column="measure"/>
+    </class>
+</hibernate-mapping>
