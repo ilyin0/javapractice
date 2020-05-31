@@ -1,6 +1,6 @@
 package by.bsu.ilyin.controller;
 
-import by.bsu.ilyin.entities.User;
+import by.bsu.ilyin.hibernate.User;
 import by.bsu.ilyin.service.UserService;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
@@ -58,7 +58,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<User>update(@PathVariable(value = "id") Integer id, @RequestBody User user){
-        user.setId(id);
+        //user.setId(id);
         boolean wasUpdated = userService.update(user);
         if(wasUpdated){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

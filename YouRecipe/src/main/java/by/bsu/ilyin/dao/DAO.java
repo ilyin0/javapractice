@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.SQLException;
 import java.util.List;
 
-public abstract class DAO<E extends IdEntity,K> {
+public abstract class DAO<E,K> {
 
     DBC dbc;
     Logger logger = LogManager.getLogger();
@@ -24,10 +24,6 @@ public abstract class DAO<E extends IdEntity,K> {
     public abstract E getById(K id);
 
     public abstract boolean delete(K id);
-
-    public boolean delete(E entity)  {
-        return delete((K) entity.getId());
-    }
 
     public abstract boolean create(E entity);
 

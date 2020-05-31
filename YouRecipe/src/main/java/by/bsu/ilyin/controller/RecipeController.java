@@ -1,6 +1,6 @@
 package by.bsu.ilyin.controller;
 
-import by.bsu.ilyin.entities.Recipe;
+import by.bsu.ilyin.hibernate.Recipe;
 import by.bsu.ilyin.service.RecipeService;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
@@ -30,7 +30,7 @@ public class RecipeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Recipe> getById(@PathVariable(value = "id") String id){
-        Recipe recipe = service.getById(Integer.valueOf(id));
+        Recipe recipe = service.getById(Long.valueOf(id));
         if(recipe!=null){
             return ResponseEntity.ok(recipe);
         }
@@ -50,7 +50,7 @@ public class RecipeController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Recipe>update(@PathVariable(value = "id") Integer id, @RequestBody Recipe recipe){
-        recipe.setId(id);
+        //recipe.setId(id);
         boolean wasUpdated = service.update(recipe);
         if(wasUpdated){
             return new ResponseEntity<>(recipe, HttpStatus.NO_CONTENT);
@@ -62,7 +62,7 @@ public class RecipeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void>delete(@PathVariable(value = "id") String id){
-        boolean wasDeleted = service.delete(Integer.valueOf(id));
+        boolean wasDeleted = service.delete(Long.valueOf(id));
         HttpStatus responseStatus = wasDeleted ? HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(responseStatus);
     }

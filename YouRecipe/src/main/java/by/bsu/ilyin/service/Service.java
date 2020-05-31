@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-public abstract class Service<E extends IdEntity,K> {
+public abstract class Service<E,K> {
     DAO<E,K> DAO;
     Logger logger = LogManager.getLogger();
 
@@ -42,9 +42,6 @@ public abstract class Service<E extends IdEntity,K> {
             logger.error(e);
         }
         return false;
-    }
-    public boolean delete(E entity) {
-        return DAO.delete(entity);
     }
     public boolean delete(K id) {
         return DAO.delete(id);

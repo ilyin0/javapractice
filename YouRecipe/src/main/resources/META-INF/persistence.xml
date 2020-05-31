@@ -1,0 +1,23 @@
+<persistence>
+    <persistence-unit name="YouRecipe">
+        <description>YouRecipe</description>
+        <class>by.bsu.ilyin.entities.User</class>
+        <class>by.bsu.ilyin.entities.Recipe</class>
+        <class>by.bsu.ilyin.entities.recipe.Product</class>
+        <class>by.bsu.ilyin.entities.recipe.UnitOfRecipe</class>
+        <class>by.bsu.ilyin.entities.recipe.Step</class>
+    </persistence-unit>
+
+    
+
+    <properties>
+        <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.driver.OracleDriver" />
+        <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:orcl" />
+        <property name="javax.persistence.jdbc.user" value="c##yourecipe" />
+        <property name="javax.persistence.jdbc.password" value="adminYR" />
+        <property name="hibernate.show_sql" value="true" />
+        <property name="hibernate.hbm2ddl.auto" value="create" />
+    </properties>
+</persistence>
+
+<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
