@@ -1,10 +1,10 @@
 package by.bsu.ilyin.dbc;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
 import lombok.Data;
 import oracle.jdbc.pool.OracleDataSource;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 @Data
 public class DBC {

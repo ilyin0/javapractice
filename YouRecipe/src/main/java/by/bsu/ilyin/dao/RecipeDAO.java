@@ -1,17 +1,13 @@
 package by.bsu.ilyin.dao;
 
-import by.bsu.ilyin.hibernate.Recipe;
+import by.bsu.ilyin.entities.Recipe;
 import by.bsu.ilyin.utils.HibernateSessionFactoryUtil;
 import lombok.SneakyThrows;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import java.sql.*;
+import java.sql.SQLException;
 import java.util.List;
 
 @Repository

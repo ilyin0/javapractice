@@ -1,8 +1,7 @@
 package by.bsu.ilyin.controller;
 
-import by.bsu.ilyin.hibernate.Recipe;
+import by.bsu.ilyin.entities.Recipe;
 import by.bsu.ilyin.service.RecipeService;
-import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

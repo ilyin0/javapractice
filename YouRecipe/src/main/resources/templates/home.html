@@ -1,10 +1,24 @@
-<html>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-
-    <title>Home Page</title>
+    <meta charset="UTF-8" />
+    <title>Person List</title>
 </head>
 <body>
-<h1>Hello !</h1>
-<p>Welcome to <span th:text="${appName}">Our App</span></p>
+<h1>User List</h1>
+<a href="/user">Add user</a>
+<br/><br/>
+<div>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+        <tr th:each ="user : ${users}">
+            <td th:utext="${user.name}">...</td>
+            <td th:utext="${user.email}">...</td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>

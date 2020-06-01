@@ -1,8 +1,9 @@
-package by.bsu.ilyin.hibernate;
+package by.bsu.ilyin.entities;
 
 import javax.persistence.*;
 
 @Entity
+@Table(name = "\"UnitOfRecipe\"")
 public class UnitOfRecipe {
     private long uorid;
     private long amount;

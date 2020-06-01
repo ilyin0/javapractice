@@ -1,22 +1,17 @@
 package by.bsu.ilyin.dao;
 
-import by.bsu.ilyin.hibernate.User;
-import by.bsu.ilyin.exceptions.ControllerException;
-
+import by.bsu.ilyin.entities.User;
 import by.bsu.ilyin.utils.HibernateSessionFactoryUtil;
 import lombok.SneakyThrows;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class UserDAO extends DAO<User, Integer> {
+public class UserDAO extends DAO<User, Long> {
 
     public UserDAO() throws SQLException, ClassNotFoundException {
         super();
@@ -29,14 +24,14 @@ public class UserDAO extends DAO<User, Integer> {
 
     @SneakyThrows
     @Override
-    public List getAllAsList()  {
-        return (List) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("FROM User").list();
+    public List<User> getAllAsList()  {
+        return (List<User>) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("FROM User").list();
     }
 
 
     @SneakyThrows
     @Override
-    public User getById(Integer id) {
+    public User getById(Long id) {
         return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(User.class, id);
     }
 
@@ -80,7 +75,7 @@ public class UserDAO extends DAO<User, Integer> {
     }
 
     @Override
-    public boolean delete(Integer id)  {
+    public boolean delete(Long id)  {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         try{

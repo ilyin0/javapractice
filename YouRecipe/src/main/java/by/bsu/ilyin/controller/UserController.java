@@ -1,8 +1,7 @@
 package by.bsu.ilyin.controller;
 
-import by.bsu.ilyin.hibernate.User;
+import by.bsu.ilyin.entities.User;
 import by.bsu.ilyin.service.UserService;
-import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getById(@PathVariable(value = "id") Integer id){
+    public ResponseEntity<User> getById(@PathVariable(value = "id") Long id){
         User user = userService.getById(id);
         if(user!=null){
             return ResponseEntity.ok(user);
@@ -38,7 +37,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.HEAD)
-    public ResponseEntity<User> isEntityById(@PathVariable(value = "id") Integer id){
+    public ResponseEntity<User> isEntityById(@PathVariable(value = "id") Long id){
         if(userService.getById(id)!=null) return new ResponseEntity<>(HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -49,7 +48,7 @@ public class UserController {
     public ResponseEntity<User>create(@RequestBody User user){
         boolean wasCreated = userService.create(user);
         if(wasCreated){
-            return new ResponseEntity<User>(user, HttpStatus.CREATED);
+            return new ResponseEntity<>(user, HttpStatus.CREATED);
         }
         else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -57,8 +56,8 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User>update(@PathVariable(value = "id") Integer id, @RequestBody User user){
-        //user.setId(id);
+    public ResponseEntity<User>update(@PathVariable(value = "id") Long id, @RequestBody User user){
+        user.setUid(id);
         boolean wasUpdated = userService.update(user);
         if(wasUpdated){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -69,8 +68,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void>delete(@PathVariable(value = "id") String id){
-        boolean wasDeleted = userService.delete(Integer.valueOf(id));
+    public ResponseEntity<Void>delete(@PathVariable(value = "id") Long id){
+        boolean wasDeleted = userService.delete(id);
         HttpStatus responseStatus = wasDeleted ? HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(responseStatus);
     }

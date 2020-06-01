@@ -1,11 +1,9 @@
-package by.bsu.ilyin.hibernate;
+package by.bsu.ilyin.entities;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "\"Product\"")
 public class Product {
     private long pid;
     private String name;

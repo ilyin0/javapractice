@@ -1,14 +1,12 @@
 <persistence>
     <persistence-unit name="YouRecipe">
         <description>YouRecipe</description>
-        <class>by.bsu.ilyin.hibernate.User</class>
-        <class>by.bsu.ilyin.hibernate.Recipe</class>
-        <class>by.bsu.ilyin.hibernate.Product</class>
-        <class>by.bsu.ilyin.hibernate.UnitOfRecipe</class>
-        <class>by.bsu.ilyin.hibernate.Step</class>
+        <class>by.bsu.ilyin.entities.User</class>
+        <class>by.bsu.ilyin.entities.Recipe</class>
+        <class>by.bsu.ilyin.entities.Product</class>
+        <class>by.bsu.ilyin.entities.UnitOfRecipe</class>
+        <class>by.bsu.ilyin.entities.Step</class>
     </persistence-unit>
-
-    
 
     <properties>
         <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.driver.OracleDriver" />

@@ -1,11 +1,11 @@
 package by.bsu.ilyin.service;
 
 import by.bsu.ilyin.dao.UserDAO;
-import by.bsu.ilyin.hibernate.User;
+import by.bsu.ilyin.entities.User;
 
 import java.sql.SQLException;
 
-public class UserService extends Service<User,Integer> {
+public class UserService extends Service<User,Long> {
 
     public UserService() throws SQLException, ClassNotFoundException {
         DAO = new UserDAO();

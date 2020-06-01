@@ -1,8 +1,9 @@
-package by.bsu.ilyin.hibernate;
+package by.bsu.ilyin.entities;
 
 import javax.persistence.*;
 
 @Entity
+@Table(name = "\"Step\"")
 public class Step {
     private long sid;
     private String image;

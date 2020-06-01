@@ -13,11 +13,11 @@
         <property name="cache.provider_configuration_file_resource_path">persistence.xml</property>
 
         <property name="show_sql">true</property>
-        <mapping class="by.bsu.ilyin.hibernate.Product"/>
-        <mapping class="by.bsu.ilyin.hibernate.Recipe"/>
-        <mapping class="by.bsu.ilyin.hibernate.Step"/>
-        <mapping class="by.bsu.ilyin.hibernate.UnitOfRecipe"/>
-        <mapping class="by.bsu.ilyin.hibernate.User"/>
+        <mapping class="by.bsu.ilyin.entities.Product"/>
+        <mapping class="by.bsu.ilyin.entities.Recipe"/>
+        <mapping class="by.bsu.ilyin.entities.Step"/>
+        <mapping class="by.bsu.ilyin.entities.UnitOfRecipe"/>
+        <mapping class="by.bsu.ilyin.entities.User"/>
 
     </session-factory>
 </hibernate-configuration>
