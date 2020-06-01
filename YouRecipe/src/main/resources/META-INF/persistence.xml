@@ -1,11 +1,11 @@
 <persistence>
     <persistence-unit name="YouRecipe">
         <description>YouRecipe</description>
-        <class>by.bsu.ilyin.entities.User</class>
-        <class>by.bsu.ilyin.entities.Recipe</class>
-        <class>by.bsu.ilyin.entities.recipe.Product</class>
-        <class>by.bsu.ilyin.entities.recipe.UnitOfRecipe</class>
-        <class>by.bsu.ilyin.entities.recipe.Step</class>
+        <class>by.bsu.ilyin.hibernate.User</class>
+        <class>by.bsu.ilyin.hibernate.Recipe</class>
+        <class>by.bsu.ilyin.hibernate.Product</class>
+        <class>by.bsu.ilyin.hibernate.UnitOfRecipe</class>
+        <class>by.bsu.ilyin.hibernate.Step</class>
     </persistence-unit>
 
     
@@ -16,7 +16,6 @@
         <property name="javax.persistence.jdbc.user" value="c##yourecipe" />
         <property name="javax.persistence.jdbc.password" value="adminYR" />
         <property name="hibernate.show_sql" value="true" />
-        <property name="hibernate.hbm2ddl.auto" value="create" />
     </properties>
 </persistence>
 

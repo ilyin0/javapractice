@@ -24,13 +24,13 @@ public class UserDAO extends DAO<User, Integer> {
 
     @Override
     public User[] getAll() {
-        return this.getAllAsList().toArray(new User[0]);
+        return null;
     }
 
     @SneakyThrows
     @Override
-    public List<User> getAllAsList()  {
-        return (List<User>) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("FROM User").list();
+    public List getAllAsList()  {
+        return (List) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("FROM User").list();
     }
 
 

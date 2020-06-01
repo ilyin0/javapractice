@@ -4,28 +4,20 @@
 
 <hibernate-configuration>
     <session-factory>
-        <property name="dialect">org.hibernate.dialect.Oracle8iDialect</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</property>
-        <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
-
-        <!-- Assume YouRecipe is the database name -->
-        <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:orcl</property>
-        <property name="connection.username">
-            c##yourecipe
-        </property>
-        <property name="connection.password">
-            adminYR
-        </property>
-        <property name="show_sql">true</property>
-        <property name="hbm2ddl.auto">create</property>
+        <property name="connection.driver_class">oracle.jdbc.OracleDriver</property>
+        <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+        <property name="connection.url">jdbc:oracle:thin:@localhost:1521:orcl</property>
+        <property name="connection.username">c##yourecipe</property>
+        <property name="connection.password">adminYR</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
         <property name="cache.provider_configuration_file_resource_path">persistence.xml</property>
+
+        <property name="show_sql">true</property>
         <mapping class="by.bsu.ilyin.hibernate.Product"/>
         <mapping class="by.bsu.ilyin.hibernate.Recipe"/>
         <mapping class="by.bsu.ilyin.hibernate.Step"/>
         <mapping class="by.bsu.ilyin.hibernate.UnitOfRecipe"/>
         <mapping class="by.bsu.ilyin.hibernate.User"/>
-
-        <!-- List of XML mapping files -->
 
     </session-factory>
 </hibernate-configuration>

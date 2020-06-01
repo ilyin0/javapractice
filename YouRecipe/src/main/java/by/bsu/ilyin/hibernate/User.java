@@ -1,11 +1,9 @@
 package by.bsu.ilyin.hibernate;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name="\"User\"")
 public class User {
     private long uid;
     private String name;

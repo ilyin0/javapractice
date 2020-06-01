@@ -29,8 +29,8 @@ public class RecipeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Recipe> getById(@PathVariable(value = "id") String id){
-        Recipe recipe = service.getById(Long.valueOf(id));
+    public ResponseEntity<Recipe> getById(@PathVariable long id){
+        Recipe recipe = service.getById(id);
         if(recipe!=null){
             return ResponseEntity.ok(recipe);
         }

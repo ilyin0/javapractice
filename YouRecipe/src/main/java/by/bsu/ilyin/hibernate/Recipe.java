@@ -1,16 +1,19 @@
 package by.bsu.ilyin.hibernate;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "\"Recipe\"")
 public class Recipe {
     private long rid;
     private String name;
 
+    public Recipe() {
+
+    }
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//сложно
     @Column(name = "RID", nullable = false, precision = 0)
     public long getRid() {
         return rid;

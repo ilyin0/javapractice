@@ -29,15 +29,7 @@ public class RecipeDAO extends DAO<Recipe, Long> {
     @SneakyThrows
     @Override
     public List getAllAsList() {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<Recipe> cq = cb.createQuery(Recipe.class);
-        Root<Recipe> rootEntry = cq.from(Recipe.class);
-        CriteriaQuery<Recipe> all = cq.select(rootEntry);
-
-        TypedQuery<Recipe> allQuery = session.createQuery(all);
-        return allQuery.getResultList();
-        //return (List) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("FROM Recipe").list();
+        return (List) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("FROM Recipe").list();
     }
 
     @SneakyThrows
